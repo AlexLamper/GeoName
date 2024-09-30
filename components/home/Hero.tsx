@@ -2,6 +2,7 @@ import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut } from '@clerk/nextjs'
 import { Loader } from 'lucide-react'
 import React from 'react'
 import { Button } from '../ui/button'
+import GreenButton from '../GreenButton'
 
 const Hero = () => {
   return (
@@ -14,8 +15,26 @@ const Hero = () => {
                 <Button className='btn btn-primary'>Sign in</Button>
             </SignedOut>
             <SignedIn>
-                <h1 className="text-center text-5xl font-bold font-outfit">Geo<span style={{ color: '#1A5319' }}>Name</span></h1>
-                <p className="text-center text-lg font-roboto">Welcome to Geoname</p>
+                <div className='max-w-[80%] mx-auto'>
+                    <div id='hero-text' className='mb-16'>
+                        <h1 className="text-center lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold font-outfit lg:max-w-[60%] max-w-[80%] mx-auto mb-8">Geo<span style={{ color: '#1A5319' }}>Name</span>, The Best Way to Learn World Placenames</h1>
+                        <p className="text-center lg:text-lg md:text-base text-sm font-roboto text-[#292929] lg:max-w-[35%] max-w-[70%] mx-auto">With GeoName you can learn  placenames the easiest and fastest way. Sign up for free and check out our quizzes.</p>
+                    </div>
+                    <div id='hero-button'>
+                        <GreenButton title='Start Now' />
+                    </div>
+                    <div id='hero-about' className='flex justify-center items-center space-x-4 mb-16 pt-32 pb-20 text-gray-600 lg:text-xl md:text-md text-sm'>
+                        <div className='border-r-gray-600 border-r-[1px] px-4 pr-4'>
+                            <p>300+ Quizzes</p>
+                        </div>
+                        <div className='border-r-gray-600 border-r-[1px] px-4 pl-0 pr-4'>
+                            <p>1000+ Users</p>
+                        </div>
+                        <div className='px-4 pl-0 pr-4'>
+                            <p>Free to use</p>
+                        </div>
+                    </div>
+                </div>
             </SignedIn>
         </ClerkLoaded>
     </div>
