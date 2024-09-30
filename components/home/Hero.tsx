@@ -30,7 +30,7 @@ const Hero = () => {
                         <div className='border-r-gray-600 border-r-[1px] px-4 pl-0 pr-4'>
                             <p>1000+ Users</p>
                         </div>
-                        <div className='px-4 pl-0 pr-4'>
+                        <div className='px-4 pl-0 pr-4'> 
                             <p>Free to use</p>
                         </div>
                     </div>
