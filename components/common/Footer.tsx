@@ -4,18 +4,21 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="w-full flex flex-col md:flex-row md:justify-between items-center md:items-start p-4 py-8 max-w-[70%] mx-auto border-t border-t-gray-600 border border-purple-500">
-      <div className="w-7/12 flex flex-col items-center md:items-start mb-6 md:mb-0">
+    <footer className="w-full flex flex-col md:flex-row md:justify-between items-center md:items-start p-4 py-8 max-w-[85%] lg:max-w-[70%] mx-auto border-t">
+      {/* Left Div */}
+      <div className="w-full md:w-7/12 flex flex-col items-start text-left mb-6 md:mb-0">
         <Link href="/">
-            <Image src={'/logo/logo.svg'} alt={'logo'} width={300} height={300} />
+          <Image src={'/logo/logo.svg'} alt={'logo'} width={300} height={300} />
         </Link>
-        <p className="text-center md:text-left mt-8 font-roboto">
+        <p className="lg:text-center text-left mt-4 font-roboto">
           © GeoName 2024, all rights reserved.
         </p>
       </div>
 
-      <div className="w-5/12 flex">
-        <div className="flex flex-col mr-32">
+      {/* Right Div */}
+      <div className="w-full md:w-5/12 flex flex-col md:flex-row justify-between md:justify-end">
+        {/* Pages List */}
+        <div className="flex flex-col mb-6 md:mb-0 md:mr-16">
           <h4 className="font-bold text-lg mb-4">Pages</h4>
           <ul>
             <li>
@@ -41,7 +44,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="flex flex-col first-line:ml-6">
+        {/* Social Media List */}
+        <div className="flex flex-col">
           <h4 className="font-bold text-lg mb-4">Social Media</h4>
           <ul>
             <li>
