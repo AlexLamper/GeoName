@@ -1,14 +1,42 @@
 import React from 'react';
+import clsx from 'clsx';
+import Link from 'next/link';
 
 interface GreenButtonProps {
   title: string;
+  width?: string;
+  height?: string;
+  fontSize?: string;
+  url?: string;
 }
 
-const GreenButton: React.FC<GreenButtonProps> = ({ title }) => {
-  return (
-    <div className="bg-[#508D4E] text-white transition-colors duration-300 hover:bg-[#6AA060] p-4 sm:p-5 md:p-6 lg:p-8 lg:rounded-xl text-center cursor-pointer shadow-md shadow-[#80AF81] w-full max-w-[12rem] sm:max-w-[12rem] md:max-w-[12rem] lg:max-w-[16rem] lg:max-h-[3.5rem] md:max-h-[2.8] max-h-[2.8rem] rounded-[0.5rem] flex items-center justify-center">
-      <h2 className="text-[1.2rem] md:text-[1.5rem] lg:text-[1.7rem] mx-auto font-roboto font-medium">{title}</h2>
+const GreenButton: React.FC<GreenButtonProps> = ({
+  title,
+  width = 'w-full max-w-[12rem]',
+  height = 'h-[2.8rem] p-4',
+  fontSize = 'text-[1.2rem]',
+  url,
+}) => {
+  const buttonContent = (
+    <div
+      className={clsx(
+        "bg-[#508D4E] text-white transition-colors duration-300 hover:bg-[#6AA060] text-center cursor-pointer shadow-md shadow-[#80AF81] rounded-[0.5rem] flex items-center justify-center",
+        width,
+        height
+      )}
+    >
+      <h2 className={clsx(fontSize, "mx-auto font-roboto font-medium")}>{title}</h2>
     </div>
+  );
+
+  return url ? (
+    <Link href={url} passHref>
+      <div className="block w-full">
+        {buttonContent}
+      </div>
+    </Link>
+  ) : (
+    buttonContent
   );
 };
 

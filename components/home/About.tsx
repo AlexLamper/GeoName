@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const About = () => {
   return (
-    <div className='lg:max-w-[70%] md:max-w-[80%] max-w-[85%] rounded-lg mx-auto flex flex-col md:flex-row'>
+    <div className='lg:max-w-[70%] md:max-w-[80%] max-w-[85%] rounded-lg mx-auto flex flex-col md:flex-row lg:mb-24'>
       <div id='left-div' className='w-full md:w-1/2 p-4'>
         <div className='mb-12 mt-24'>
           <h1 className="lg:text-5xl text-4xl font-bold font-outfit mb-8 max-w-[80%]">

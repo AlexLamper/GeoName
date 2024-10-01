@@ -7,39 +7,49 @@ import {
     SignedIn,
     SignedOut,
     SignInButton,
+    SignUpButton,
     UserButton,
 } from '@clerk/nextjs';
 import { Loader } from 'lucide-react';
-import { Button } from '../ui/button';
+import GrayButton from '../GrayButton';
 
 const Navbar = () => {
     return (
         <nav className="border-b h-20 w-full px-4">
             <div className="lg:max-w-screen-lg mx-auto flex items-center justify-between h-full">
-                <div className="pt-8 pl-4 pb-7 flex items-center gap-x-3">
-                    {/* Logo */}
+                {/* Logo Section */}
+                <div className="flex items-center gap-x-3 h-full">
                     <Link href="/">
                         <Image src={'/logo/logo.svg'} alt={'logo'} width={200} height={200} />
                     </Link>
                 </div>
 
-                <div>
+                {/* Auth Section */}
+                <div className="flex items-center h-full">
                     <ClerkLoading>
                         <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
                     </ClerkLoading>
                     
                     <ClerkLoaded>
-                        <div className="flex gap-x-3 ml-auto p-2">
+                        <div className="flex gap-x-3 items-center">
                             <SignedIn>
                                 <ModeToggle />
                                 <UserButton />
                             </SignedIn>
-                        </div>
-                        <div className="flex gap-x-3 ml-auto">
                             <SignedOut>
                                 <SignInButton mode="modal">
-                                    <Button>Login</Button>
+                                    <div className="w-full max-w-[18rem]">
+                                        <GrayButton title="Login" height="h-[2.8rem] p-4" fontSize="text-[1rem]" />
+                                    </div>
                                 </SignInButton>
+                                <SignUpButton mode="modal">
+                                    <div className="w-full max-w-[32rem]">
+                                        <GrayButton title="SignUp" height="h-[2.8rem] p-4" fontSize="text-[1rem]" />
+                                    </div>
+                                </SignUpButton>
+                                <div className='ml-8'>
+                                    <ModeToggle />
+                                </div>
                             </SignedOut>
                         </div>
                     </ClerkLoaded>
