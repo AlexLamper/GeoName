@@ -7,7 +7,7 @@ const Features = () => {
       <div className='w-full p-4'>
         <div className='mb-12 mt-24'>
           <h1 className="lg:text-5xl md:text-4xl sm:text-3xl text-3xl font-bold font-outfit mb-12 max-w-[80%] mx-auto text-center">
-            Free, <span style={{ color: '#1A5319' }}>fun</span>, and effective
+            Our <span style={{ color: '#1A5319' }}>features</span>
           </h1>
           <div className='flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 justify-between max-w-[80%] mx-auto'>
             <div id='card-1' className='rounded-[0.65rem] w-full md:w-[28%] bg-[#80AF81]'>
