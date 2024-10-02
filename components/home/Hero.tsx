@@ -13,7 +13,7 @@ const Hero = () => {
             <div id='hero-button' className='flex justify-center items-center mx-auto'>
                 <SignedOut>
                     <div className="flex justify-center items-center w-full max-w-[18rem] mx-auto">
-                        <GreenButton title='Start Now' height='h-[4rem] p-6' fontSize='text-[1.4rem]' width='w-full max-w-[18rem]' url='/sign-up' />
+                        <GreenButton title='Start Now' height='h-[4rem] p-6' fontSize='text-[1.4rem]' width='w-full max-w-[18rem]' url='/sign-in' />
                     </div>
                 </SignedOut>
             </div>

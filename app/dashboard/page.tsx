@@ -1,7 +1,9 @@
 "use client";
 
+import Sidebar from '@/components/common/Sidebar';
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
+import Main from '@/components/dashboard/Main';
 
 export default function DashboardPage() {
   const { isSignedIn } = useAuth();
@@ -16,9 +18,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className='p-4 min-h-screen'>
-      <h1 className='text-2xl font-bold'>Welcome to your dashboard!</h1>
-      {/* Protected content goes here */}
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <Sidebar />
+      <Main />
     </div>
   );
 }
