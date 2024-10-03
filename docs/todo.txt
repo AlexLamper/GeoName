@@ -1,0 +1,8 @@
+TODO
+================================================================================
+- Add reusable (and configurable) card component with dark and light mode.
+- Add quizzes hierarchy and structure within the project.
+- Call the quizzes API and display the data.
+- Implemet the actual quiz logic and functionality.
+- Add a score system. (Which is linked to your 'Clerk' account.) You can earn points by completing or playing quizzes.
+- Add a leaderboard page. This page will display the top 100 users with the highest score.
