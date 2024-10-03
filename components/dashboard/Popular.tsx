@@ -1,11 +1,87 @@
-import React from 'react'
+import React from 'react';
+import { FaTrophy, FaPlayCircle, FaCheckCircle } from 'react-icons/fa';
 
 const Popular = () => {
+  const cardData = [
+    {
+      id: 1,
+      header: 'Quizzes Played:',
+      statistic: '243',
+      icon: <FaPlayCircle size={30} color="#508D4E" />,
+    },
+    {
+      id: 2,
+      header: 'Quizzes Completed:',
+      statistic: '143',
+      icon: <FaCheckCircle size={30} color="#508D4E" />,
+    },
+    {
+      id: 3,
+      header: 'Leaderboard Placement:',
+      statistic: '#20',
+      icon: <FaTrophy size={30} color="#508D4E" />,
+    },
+    {
+      id: 4,
+      header: 'Quizzes Played:',
+      statistic: '243',
+      icon: <FaPlayCircle size={30} color="#508D4E" />,
+    },
+    {
+      id: 5,
+      header: 'Quizzes Completed:',
+      statistic: '143',
+      icon: <FaCheckCircle size={30} color="#508D4E" />,
+    },
+    {
+      id: 6,
+      header: 'Leaderboard Placement:',
+      statistic: '#20',
+      icon: <FaTrophy size={30} color="#508D4E" />,
+    },
+    {
+        id: 7,
+        header: 'Quizzes Played:',
+        statistic: '243',
+        icon: <FaPlayCircle size={30} color="#508D4E" />,
+      },
+      {
+        id: 8,
+        header: 'Quizzes Completed:',
+        statistic: '143',
+        icon: <FaCheckCircle size={30} color="#508D4E" />,
+      },
+      {
+        id: 9,
+        header: 'Leaderboard Placement:',
+        statistic: '#20',
+        icon: <FaTrophy size={30} color="#508D4E" />,
+      },
+  ];
+
   return (
     <div>
-        <h1>Popular</h1>
-    </div>
-  )
-}
+      <h1 className="lg:text-3xl md:text-2xl sm:text-xl text-xl font-bold font-outfit lg:max-w-[60%] max-w-[80%] mb-4">
+        Popular<span style={{ color: '#1A5319' }}>.</span>
+      </h1>
 
-export default Popular
+      {/* Cards Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {cardData.map((card) => (
+          <div
+            key={card.id}
+            className="border border-gray-300 rounded-[0.5rem] p-6 h-48 flex flex-col justify-between"
+          >
+            <div className="flex items-center mb-4">
+              {card.icon}
+            </div>
+            <h3 className="text-2xl font-semibold mb-3">{card.header}</h3>
+            <p className="text-[#1A5319] text-3xl font-bold">{card.statistic}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Popular;

@@ -18,7 +18,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex min-h-screen">
       {/* Sidebar */}
       <Sidebar />
       <Main />
