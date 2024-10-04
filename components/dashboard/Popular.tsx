@@ -1,62 +1,45 @@
 import React from 'react';
-import { FaTrophy, FaPlayCircle, FaCheckCircle } from 'react-icons/fa';
+import { FaTrophy, FaPlayCircle, FaCheckCircle, FaArrowRight } from 'react-icons/fa';
+import { Card2 } from '../Card2';
 
 const Popular = () => {
   const cardData = [
     {
       id: 1,
-      header: 'Quizzes Played:',
-      statistic: '243',
-      icon: <FaPlayCircle size={30} color="#508D4E" />,
+      header: 'Cities in Germany',
+      icon: <FaArrowRight size={30} color="#508D4E" />,
+      href: '#',
     },
     {
       id: 2,
-      header: 'Quizzes Completed:',
-      statistic: '143',
-      icon: <FaCheckCircle size={30} color="#508D4E" />,
+      header: 'Towns and villages in Bulgaria',
+      icon: <FaArrowRight size={30} color="#508D4E" />,
+      href: '#',
     },
     {
       id: 3,
-      header: 'Leaderboard Placement:',
-      statistic: '#20',
-      icon: <FaTrophy size={30} color="#508D4E" />,
+      header: 'Cities in the United Kingdom',
+      icon: <FaArrowRight size={30} color="#508D4E" />,
+      href: '#',
     },
     {
       id: 4,
-      header: 'Quizzes Played:',
-      statistic: '243',
+      header: 'Towns and Villages in California',
       icon: <FaPlayCircle size={30} color="#508D4E" />,
+      href: '#',
     },
     {
       id: 5,
-      header: 'Quizzes Completed:',
-      statistic: '143',
+      header: 'Cities in Peru',
       icon: <FaCheckCircle size={30} color="#508D4E" />,
+      href: '#',
     },
     {
       id: 6,
-      header: 'Leaderboard Placement:',
-      statistic: '#20',
+      header: 'Towns and villages in South-Africa',
       icon: <FaTrophy size={30} color="#508D4E" />,
+      href: '#',
     },
-    {
-        id: 7,
-        header: 'Quizzes Played:',
-        statistic: '243',
-        icon: <FaPlayCircle size={30} color="#508D4E" />,
-      },
-      {
-        id: 8,
-        header: 'Quizzes Completed:',
-        statistic: '143',
-        icon: <FaCheckCircle size={30} color="#508D4E" />,
-      },
-      {
-        id: 9,
-        header: 'Leaderboard Placement:',
-        statistic: '#20',
-        icon: <FaTrophy size={30} color="#508D4E" />,
-      },
   ];
 
   return (
@@ -68,16 +51,12 @@ const Popular = () => {
       {/* Cards Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {cardData.map((card) => (
-          <div
+          <Card2
             key={card.id}
-            className="border border-gray-300 rounded-[0.5rem] p-6 h-48 flex flex-col justify-between"
-          >
-            <div className="flex items-center mb-4">
-              {card.icon}
-            </div>
-            <h3 className="text-2xl font-semibold mb-3">{card.header}</h3>
-            <p className="text-[#1A5319] text-3xl font-bold">{card.statistic}</p>
-          </div>
+            header={card.header}
+            icon={card.icon} 
+            href={card.href}          
+          />
         ))}
       </div>
     </div>

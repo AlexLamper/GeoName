@@ -22,6 +22,7 @@ const Main = () => {
         <Statistics />
         <Space height="40px" />
         <Popular />
+        <Space height="40px" />
       </div>
     </div>
   );

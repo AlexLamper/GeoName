@@ -1,3 +1,5 @@
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ModeToggle } from '../mode-toggle';
@@ -12,15 +14,20 @@ import {
 } from '@clerk/nextjs';
 import { Loader } from 'lucide-react';
 import GrayButton from '../GrayButton';
+import { useTheme } from 'next-themes';
 
 const Navbar = () => {
+    const { theme } = useTheme();
+
+    const logoSrc = theme === 'dark' ? '/icons/logo-icon-light.svg' : '/logo/logo.svg';
+
     return (
         <nav className="border-b h-20 w-full px-4">
             <div className="lg:max-w-screen-lg mx-auto flex items-center justify-between h-full">
                 {/* Logo Section */}
                 <div className="flex items-center gap-x-3 h-full">
                     <Link href="/">
-                        <Image src={'/logo/logo.svg'} alt={'logo'} width={200} height={200} />
+                        <Image src={logoSrc} alt={'logo'} width={200} height={200} />
                     </Link>
                 </div>
 
