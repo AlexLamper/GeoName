@@ -11,7 +11,7 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <div className={`fixed inset-y-0 left-0 z-50 w-64 border-r bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-10 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out md:relative md:translate-x-0 h-auto`}>
+    <div className={`fixed inset-y-0 left-0 z-50 w-64 border-r bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out md:relative md:translate-x-0 h-auto`}>
       <nav className="p-8 h-full">
         <ul>
           <li className={`mb-4 flex items-center hover:bg-opacity-70 hover:border hover:rounded-[0.4rem] cursor-pointer ${pathname === '/' || pathname === '/dashboard' ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
