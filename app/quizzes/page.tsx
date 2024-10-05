@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { FaArrowRight } from 'react-icons/fa';
 import Space from "@/components/common/Space";
 import GreenButton from '@/components/buttons/GreenButton';
+import Link from 'next/link';
 
 const QuizzesPage = () => {
   const [countries, setCountries] = useState<Country[]>([]);
@@ -40,7 +41,10 @@ const QuizzesPage = () => {
       {/* Sidebar */}
       <Sidebar />
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
-        <h1 className="text-2xl font-bold">Select a Country</h1>
+        <h1 className="text-4xl font-bold mb-2">Choose the quiz <span style={{ color: '#1A5319' }}>Country</span></h1>
+        <p className="opacity-80 mb-8">
+            On this page you can choose a country which you want to play the quiz of!
+        </p>
 
         {/* Continent Filter Dropdown */}
         <div className="mt-4">
@@ -59,21 +63,23 @@ const QuizzesPage = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 border border-transparent mb-8">
           {displayedCountries.map((country) => (
-            <div key={country.id} className="border border-gray-300 rounded-[0.4rem] flex items-center p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15">
-              <Image
-                src={`/flags/4x3/${country.iso_code.toLowerCase()}.svg`}
-                alt={`Flag of ${country.name}`}
-                className="w-12 h-8 mr-4 rounded-[0.4rem]"
-                width={120}
-                height={80}
-              />
-              {/* Country Name */}
-              <span className="flex-1 text-center font-medium text-lg">{country.name}</span>
-              {/* Arrow Icon */}
-              <span className="text-[#508D4E]">
-                <FaArrowRight size={20} color="#508D4E" />
-              </span>
-            </div>
+            <Link key={country.id} href={`/quizzes/${country.iso_code}`}>
+                <div key={country.id} className="border border-gray-300 rounded-[0.4rem] flex items-center p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15">
+                    <Image
+                        src={`/flags/4x3/${country.iso_code.toLowerCase()}.svg`}
+                        alt={`Flag of ${country.name}`}
+                        className="w-12 h-8 mr-4 rounded-[0.4rem]"
+                        width={120}
+                        height={80}
+                    />
+                    {/* Country Name */}
+                    <span className="flex-1 text-center font-medium text-lg">{country.name}</span>
+                    {/* Arrow Icon */}
+                    <span className="text-[#508D4E]">
+                        <FaArrowRight size={20} color="#508D4E" />
+                    </span>
+                </div>
+            </Link>
           ))}
         </div>
         {/* Show All Button */}

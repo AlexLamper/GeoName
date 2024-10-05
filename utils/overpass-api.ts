@@ -1,10 +1,12 @@
 // utils/overpass-api.ts
 
+// Step 1: Define TypeScript Interfaces for Overpass Data
 interface OverpassElement {
     id: number;
     tags: {
       name: string;
       "ISO3166-1:alpha2"?: string;
+      [key: string]: string | undefined;
     };
   }
   
@@ -13,6 +15,13 @@ interface OverpassElement {
     name: string;
     iso_code: string;
     continent?: string;
+  }
+  
+  export interface Region {
+    id: number;
+    tags: {
+      name: string;
+    };
   }
 
   const continentMapping: Record<string, string> = {
@@ -224,7 +233,7 @@ interface OverpassElement {
         const isoCode = element.tags["ISO3166-1:alpha2"];
         return {
           id: element.id,
-          name: element.tags["name"],
+          name: element.tags["name:en"] || element.tags["name"],
           iso_code: isoCode || "N/A",
           continent: isoCode ? continentMapping[isoCode] || "Unknown" : "Unknown",
         };
@@ -234,4 +243,36 @@ interface OverpassElement {
       return null;
     }
   }
+
+  export async function fetchRegionsByCountry(country: string): Promise<Region[] | null> {
+    const query = `
+      [out:json];
+      relation["admin_level"="4"]["boundary"="administrative"]["name"="${country}"];
+      out body;
+    `;
+  
+    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+  
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data.elements.map((element: OverpassElement) => {
+        return {
+          id: element.id,
+          tags: {
+            name: element.tags["name"],
+          }
+        };
+      });
+    } catch (error) {
+      console.error("Error fetching regions:", error);
+      return null;
+    }
+  }
+
+  
   
