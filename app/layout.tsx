@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/others/theme-provider"
 import { ClerkProvider } from '@clerk/nextjs'
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";

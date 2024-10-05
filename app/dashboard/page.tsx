@@ -3,7 +3,7 @@
 import Sidebar from '@/components/common/Sidebar';
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
-import Main from '@/components/dashboard/Main';
+import MainDashboard from '@/components/dashboard/MainDashboard';
 
 export default function DashboardPage() {
   const { isSignedIn } = useAuth();
@@ -21,7 +21,7 @@ export default function DashboardPage() {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <Sidebar />
-      <Main />
+      <MainDashboard />
     </div>
   );
 }

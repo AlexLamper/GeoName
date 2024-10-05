@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ModeToggle } from '../mode-toggle';
+import { ModeToggle } from '../others/mode-toggle';
 import { 
     ClerkLoaded, 
     ClerkLoading,
@@ -13,10 +13,11 @@ import {
     UserButton,
 } from '@clerk/nextjs';
 import { Loader } from 'lucide-react';
-import GrayButton from '../GrayButton';
+import GrayButton from '../buttons/GrayButton';
 import { useTheme } from 'next-themes';
 
 const Navbar = () => {
+
     const { theme } = useTheme();
 
     const logoSrc = theme === 'dark' ? '/icons/logo-icon-light.svg' : '/logo/logo.svg';

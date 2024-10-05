@@ -1,6 +1,6 @@
 import React from 'react';
-import { FaTrophy, FaPlayCircle, FaCheckCircle, FaArrowRight } from 'react-icons/fa';
-import { Card2 } from '../Card2';
+import { FaArrowRight } from 'react-icons/fa';
+import { Card2 } from '../cards/Card2';
 
 const Popular = () => {
   const cardData = [
@@ -25,19 +25,19 @@ const Popular = () => {
     {
       id: 4,
       header: 'Towns and Villages in California',
-      icon: <FaPlayCircle size={30} color="#508D4E" />,
+      icon: <FaArrowRight size={30} color="#508D4E" />,
       href: '#',
     },
     {
       id: 5,
       header: 'Cities in Peru',
-      icon: <FaCheckCircle size={30} color="#508D4E" />,
+      icon: <FaArrowRight size={30} color="#508D4E" />,
       href: '#',
     },
     {
       id: 6,
       header: 'Towns and villages in South-Africa',
-      icon: <FaTrophy size={30} color="#508D4E" />,
+      icon: <FaArrowRight size={30} color="#508D4E" />,
       href: '#',
     },
   ];

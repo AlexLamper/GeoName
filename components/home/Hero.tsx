@@ -1,5 +1,5 @@
 import React from 'react'
-import GreenButton from '../GreenButton'
+import GreenButton from '../buttons/GreenButton'
 import { SignedOut } from '@clerk/nextjs';
 
 const Hero = () => {

@@ -1,6 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isPublicRoute = createRouteMatcher(['/','/sign-in(.*)', '/sign-up(.*)'])
+const isPublicRoute = createRouteMatcher(['/', '/about', '/help', '/sign-in(.*)', '/sign-up(.*)'])
 
 export default clerkMiddleware((auth, request) => {
   if (!isPublicRoute(request)) {
@@ -12,6 +12,8 @@ export const config = {
   matcher: [
     // Public routes
     '/',
+    '/about',
+    '/help',
     // Protected routes
     '/dashboard',
     '/quiz/:path*', // All quiz pages will be protected

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTrophy, FaPlayCircle, FaCheckCircle } from 'react-icons/fa';
-import { Card } from "@/components/Card"
+import { Card } from "@/components/cards/Card"
 
 const Statistics = () => {
   const cardData = [
