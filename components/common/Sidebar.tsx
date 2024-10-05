@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { MdHome, MdInfo } from 'react-icons/md';
-import { FaGlobe, FaQuestionCircle, FaUser } from 'react-icons/fa';
+import { FaGlobe, FaQuestionCircle } from 'react-icons/fa';
 
 const Sidebar = () => {
   const [isOpen] = useState(false);

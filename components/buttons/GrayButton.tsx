@@ -12,7 +12,7 @@ const GrayButton: React.FC<GrayButtonProps> = ({ title, width = 'w-full max-w-[1
   return (
     <div
       className={clsx(
-        "bg-[#d9d9d921] text-[#404040] transition-colors duration-300 hover:bg-[#d9d9d94f] text-center cursor-pointer shadow-md shadow-[#00000050] rounded-[0.5rem] flex items-center justify-center border",
+        "bg-[#d9d9d921] text-[#404040] transition-colors duration-300 hover:bg-[#d9d9d94f] text-center cursor-pointer shadow-md shadow-[#00000050] rounded-[0.5rem] flex items-center justify-center border dark:bg-[#508D4E] dark:text-white dark:border-none dark:hover:bg-opacity-80",
         width,
         height
       )}

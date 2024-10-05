@@ -1,10 +1,10 @@
 TODO
 ================================================================================
-- Add quizzes hierarchy and structure within the project.
-- Call the quizzes API and display the data.
 - Implemet the actual quiz logic and functionality.
 - Add a score system. (Which is linked to your 'Clerk' account.) You can earn points by completing or playing quizzes.
 - Add a leaderboard page. This page will display the top 100 users with the highest score.
 - Add breadcrumbs/pagination to the quiz pages. (Using the ShadCN components.)
+- Add the actual content of the about page.
+- Add the content of the help page.
 
 Overpass API, with Leaflet for the map.
