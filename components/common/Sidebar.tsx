@@ -20,16 +20,16 @@ const Sidebar = () => {
               Dashboard
             </Link>
           </li>
-          <li className={`mb-4 flex items-center cursor-pointer ${pathname === '/quizzes' ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
+          <li className={`mb-4 flex items-center cursor-pointer ${pathname.startsWith('/quizzes') ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
             <Link href="/quizzes" className="flex items-center w-full px-4 py-2 rounded font-medium hover:bg-opacity-10 transition-colors duration-200">
               <FaGlobe size={20} className="mr-2" />
               Quizzes
             </Link>
           </li>
-          <li className={`mb-4 flex items-center cursor-pointer ${pathname === '/profile' ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
-            <Link href="/profile" className="flex items-center w-full px-4 py-2 rounded font-medium hover:bg-opacity-10 transition-colors duration-200">
-              <FaUser size={20} className="mr-2" />
-              Profile
+          <li className={`mb-4 flex items-center cursor-pointer ${pathname === '/leaderboard' ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
+            <Link href="/leaderboard" className="flex items-center w-full px-4 py-2 rounded font-medium hover:bg-opacity-10 transition-colors duration-200">
+              <FaQuestionCircle size={20} className="mr-2" />
+              Leaderboard
             </Link>
           </li>
           <li className={`mb-4 flex items-center cursor-pointer ${pathname === '/about' ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
