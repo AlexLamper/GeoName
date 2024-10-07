@@ -246,8 +246,9 @@ interface OverpassElement {
 
   export async function fetchRegionsByCountry(country: string): Promise<Region[] | null> {
     const query = `
-      [out:json];
-      relation["admin_level"="4"]["boundary"="administrative"]["name"="${country}"];
+      [out:json][timeout:25];
+      area["ISO3166-1:alpha2"="${country}"]->.searchArea;
+      relation["admin_level"="4"](area.searchArea);
       out body;
     `;
   
@@ -260,19 +261,23 @@ interface OverpassElement {
       }
   
       const data = await response.json();
-      return data.elements.map((element: OverpassElement) => {
-        return {
-          id: element.id,
-          tags: {
-            name: element.tags["name"],
-          }
-        };
-      });
+      if (data.elements.length === 0) {
+        console.log(`No regions found for ${country}`);
+        return null; // No regions found
+      }
+  
+      return data.elements.map((element: OverpassElement) => ({
+        id: element.id,
+        tags: {
+          name: element.tags["name"],
+        },
+      }));
     } catch (error) {
       console.error("Error fetching regions:", error);
       return null;
     }
   }
+  
 
   
   
