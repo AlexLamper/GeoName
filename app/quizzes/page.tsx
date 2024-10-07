@@ -27,7 +27,6 @@ const QuizzesPage = () => {
 
   if (loading) return <div>Loading countries...</div>;
 
-  // Example continent filter options
   const continents = ['All', 'Asia', 'Europe', 'Africa', 'North America', 'South America', 'Oceania'];
 
   const filteredCountries = selectedContinent === 'All'
@@ -72,9 +71,7 @@ const QuizzesPage = () => {
                         width={120}
                         height={80}
                     />
-                    {/* Country Name */}
                     <span className="flex-1 text-center font-medium text-lg">{country.name}</span>
-                    {/* Arrow Icon */}
                     <span className="text-[#508D4E]">
                         <FaArrowRight size={20} color="#508D4E" />
                     </span>
