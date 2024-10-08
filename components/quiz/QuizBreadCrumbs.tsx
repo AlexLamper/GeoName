@@ -15,7 +15,7 @@ export default function QuizBreadcrumbs() {
   const pathParts = pathname.split("/").filter(Boolean);
 
   const getCrumbName = (part: string) => {
-    return part.charAt(0).toUpperCase() + part.slice(1); // Capitalize the first letter
+    return decodeURIComponent(part.charAt(0).toUpperCase() + part.slice(1));
   };
 
   return (
@@ -43,8 +43,8 @@ export default function QuizBreadcrumbs() {
           </BreadcrumbLink>
         </BreadcrumbItem>
         {pathParts.slice(1).map((part, index) => {
-          const isLastPart = index === pathParts.length - 1; // Check if this is the last part (region)
-          const href = `/${pathParts.slice(0, index + 2).join("/")}`; // Construct the href for each breadcrumb
+          const isLastPart = index === pathParts.length - 1;
+          const href = `/${pathParts.slice(0, index + 2).join("/")}`;
 
           return (
             <React.Fragment key={part}>
@@ -56,7 +56,7 @@ export default function QuizBreadcrumbs() {
                     isLastPart ? "font-semibold text-gray-800" : ""
                   }`}
                 >
-                  {getCrumbName(part)} {/* Capitalize crumb names */}
+                  {getCrumbName(part)} {/* Decode crumb names */}
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </React.Fragment>

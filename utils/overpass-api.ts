@@ -2,27 +2,27 @@
 
 // Step 1: Define TypeScript Interfaces for Overpass Data
 interface OverpassElement {
-    id: number;
-    tags: {
-      name: string;
-      "ISO3166-1:alpha2"?: string;
-      [key: string]: string | undefined;
-    };
-  }
-  
-  export interface Country {
-    id: number;
+  id: number;
+  tags: {
     name: string;
-    iso_code: string;
-    continent?: string;
-  }
-  
-  export interface Region {
-    id: number;
-    tags: {
-      name: string;
-    };
-  }
+    "ISO3166-1:alpha2"?: string;
+    [key: string]: string | undefined;
+  };
+}
+
+export interface Country {
+  id: number;
+  name: string;
+  iso_code: string;
+  continent?: string;
+}
+
+export interface Region {
+  id: number;
+  tags: {
+    name: string;
+  };
+}
 
   const continentMapping: Record<string, string> = {
     "AF": "Africa",
@@ -211,72 +211,74 @@ interface OverpassElement {
     "ZM": "Africa",
     "ZW": "Africa",
   };
+
   
   // Function to fetch countries
-  export async function fetchCountries(): Promise<Country[] | null> {
-    const query = `
-      [out:json];
-      relation["admin_level"="2"]["type"="boundary"]["boundary"="administrative"];
-      out body;
-    `;
-  
-    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-  
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-      return data.elements.map((element: OverpassElement) => {
-        const isoCode = element.tags["ISO3166-1:alpha2"];
-        return {
-          id: element.id,
-          name: element.tags["name:en"] || element.tags["name"],
-          iso_code: isoCode || "N/A",
-          continent: isoCode ? continentMapping[isoCode] || "Unknown" : "Unknown",
-        };
-      });
-    } catch (error) {
-      console.error("Error fetching countries:", error);
-      return null;
-    }
-  }
+export async function fetchCountries(): Promise<Country[] | null> {
+  const query = `
+    [out:json];
+    relation["admin_level"="2"]["type"="boundary"]["boundary"="administrative"];
+    out body;
+  `;
 
-  export async function fetchRegionsByCountry(country: string): Promise<Region[] | null> {
-    const query = `
-      [out:json][timeout:25];
-      area["ISO3166-1:alpha2"="${country}"]->.searchArea;
-      relation["admin_level"="4"](area.searchArea);
-      out body;
-    `;
-  
-    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-  
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-      if (data.elements.length === 0) {
-        console.log(`No regions found for ${country}`);
-        return null; // No regions found
-      }
-  
-      return data.elements.map((element: OverpassElement) => ({
-        id: element.id,
-        tags: {
-          name: element.tags["name"],
-        },
-      }));
-    } catch (error) {
-      console.error("Error fetching regions:", error);
-      return null;
+  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const data = await response.json();
+    return data.elements.map((element: OverpassElement) => {
+      const isoCode = element.tags["ISO3166-1:alpha2"];
+      return {
+        id: element.id,
+        name: element.tags["name:en"] || element.tags["name"],
+        iso_code: isoCode || "N/A",
+        continent: isoCode ? continentMapping[isoCode] || "Unknown" : "Unknown",
+      };
+    });
+  } catch (error) {
+    console.error("Error fetching countries:", error);
+    return null;
   }
+}
+
+// Function to fetch regions by country
+export async function fetchRegionsByCountry(country: string): Promise<Region[] | null> {
+  const query = `
+    [out:json][timeout:25];
+    area["ISO3166-1:alpha2"="${country}"]->.searchArea;
+    relation["admin_level"="4"](area.searchArea);
+    out body;
+  `;
+
+  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    if (data.elements.length === 0) {
+      console.log(`No regions found for ${country}`);
+      return null; // No regions found
+    }
+
+    return data.elements.map((element: OverpassElement) => ({
+      id: element.id,
+      tags: {
+        name: element.tags["name"],
+      },
+    }));
+  } catch (error) {
+    console.error("Error fetching regions:", error);
+    return null;
+  }
+}
   
 
   

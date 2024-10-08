@@ -13,7 +13,7 @@ interface GreenButtonProps {
 
 const GreenButton: React.FC<GreenButtonProps> = ({
   title,
-  width = 'w-full max-w-[12rem]',
+  width = 'w-full max-w-[12rem] min-w-[8rem]',
   height = 'h-[2.8rem] p-4',
   fontSize = 'text-[1.2rem]',
   url,
@@ -28,7 +28,15 @@ const GreenButton: React.FC<GreenButtonProps> = ({
       )}
       onClick={onClick}
     >
-      <h2 className={clsx(fontSize, "mx-auto font-roboto font-medium")}>{title}</h2>
+      <h2
+        className={clsx(
+          fontSize,
+          "mx-auto font-roboto font-medium truncate px-2"
+        )}
+        style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+      >
+        {title}
+      </h2>
     </div>
   );
 

@@ -8,7 +8,7 @@ const Popular = () => {
       id: 1,
       header: 'Cities in Germany',
       icon: <FaArrowRight size={30} color="#508D4E" />,
-      href: '#',
+      href: '/quizzes/DE/Entire%20Country',
     },
     {
       id: 2,
