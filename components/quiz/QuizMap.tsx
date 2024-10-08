@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet'; // Import Leaflet for marker customization
 import StyledButton from '../buttons/StyledButton';
+
+// Set the default icon for the markers
+const DefaultIcon = L.icon({
+  iconUrl: '/leaflet/images/marker-icon.png', // Ensure this path is correct
+  iconSize: [25, 41], // Size of the icon
+  iconAnchor: [12, 41], // Point of the icon which will correspond to marker's location
+  popupAnchor: [1, -34], // Point from which the popup should open relative to the iconAnchor
+  shadowUrl: '/leaflet/images/marker-shadow.png', // Ensure this path is correct
+  shadowSize: [41, 41], // Size of the shadow
+});
+
+// Override the default icon for all markers globally
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: '/leaflet/images/marker-icon-2x.png', // Ensure this path is correct
+  iconUrl: '/leaflet/images/marker-icon.png', // Ensure this path is correct
+  shadowUrl: '/leaflet/images/marker-shadow.png', // Ensure this path is correct
+});
 
 interface SimpleMapProps {
   center: [number, number];
@@ -38,8 +56,8 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
       <MapContainer
         center={center}
         zoom={zoom}
-        style={{ height: '600px', width: '100%' }}
-        className="rounded-[0.6rem] shadow-lg"
+        style={{ height: '600px', width: '100%', borderRadius: '0.5rem', overflow: 'hidden' }}
+        className="shadow-lg"
       >
         {mapType === 'google' ? (
           <TileLayer
@@ -53,7 +71,7 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
           />
         )}
         {places.map((place) => (
-          <Marker key={place.id} position={place.position}>
+          <Marker key={place.id} position={place.position} icon={DefaultIcon}>
             <Popup>{place.name}</Popup>
           </Marker>
         ))}
