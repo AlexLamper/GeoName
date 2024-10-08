@@ -22,8 +22,8 @@ const QuizTypePage = () => {
 
   // Sample data for demonstration; replace with your actual places data
   const places: Place[] = [
-    { id: 1, name: 'City 1', position: [51.505, -0.09] as [number, number] }, // Tuple for [latitude, longitude]
-    { id: 2, name: 'City 2', position: [51.51, -0.1] as [number, number] },  // Tuple for [latitude, longitude]
+    { id: 1, name: 'City 1', position: [51.505, -0.09] as [number, number] },
+    { id: 2, name: 'City 2', position: [51.51, -0.1] as [number, number] },
     // Add more places as needed
   ];
 
