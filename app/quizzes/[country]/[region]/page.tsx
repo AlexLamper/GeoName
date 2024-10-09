@@ -11,17 +11,31 @@ import Space from '@/components/common/Space';
 const RegionQuizPage = () => {
   const { country, region } = useParams();
   const router = useRouter();
-  const [quizType, setQuizType] = useState<string | null>(null);
+  const [selectedQuizTypes, setSelectedQuizTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [countryName, setCountryName] = useState<string | null>(null);
 
   const handleQuizTypeSelect = (type: string) => {
-    setQuizType(type);
+    if (type === "All") {
+      if (selectedQuizTypes.includes("All")) {
+        setSelectedQuizTypes(prev => prev.filter(t => t !== "All"));
+      } else {
+        setSelectedQuizTypes(["All"]); // Select "All" and clear other selections
+      }
+    } else {
+      setSelectedQuizTypes(prev => 
+        prev.includes(type) 
+          ? prev.filter(t => t !== type) // Deselect if already selected
+          : prev.includes("All") 
+            ? [type] // If "All" is selected, replace with the new selection
+            : [...prev, type] // Otherwise, add to selections
+      );
+    }
   };
 
   const handleStartQuiz = () => {
-    if (quizType) {
-      router.push(`/quizzes/${country}/${region}/${quizType}`);
+    if (selectedQuizTypes.length > 0) {
+      router.push(`/quizzes/${country}/${region}/${selectedQuizTypes[0]}`);
     }
   };
 
@@ -58,25 +72,29 @@ const RegionQuizPage = () => {
         </p>
 
         <h3 className="text-xl font-semibold mt-4">Select Quiz Type</h3>
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col gap-2 mt-2 lg:max-w-[60%] max-w-[95%]">
           {["Cities", "Towns", "Villages", "Hamlets", "All"].map((type) => (
             <button
               key={type}
               onClick={() => handleQuizTypeSelect(type)}
-              className={`border border-gray-300 rounded-[0.4rem] p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15 ${quizType === type ? 'bg-gray-200' : ''}`}
+              className={`rounded-[0.5rem] p-4 transition-colors duration-200 border
+                ${selectedQuizTypes.includes(type) 
+                  ? 'bg-[#508D4E] text-white' 
+                  : 'bg-white hover:bg-gray-200'} 
+                dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15 ${selectedQuizTypes.includes(type) ? 'dark:bg-[#508D4E] dark:text-white' : ''}`}
             >
               {type}
             </button>
           ))}
         </div>
 
-        {quizType && (
+        {selectedQuizTypes.length > 0 && (
           <div className="mt-4">
             <h4 className="text-xl font-semibold my-4">
-              You selected: <span className="font-bold text-[#1A5319]">{quizType}</span>
+              You selected: <span className="font-bold text-[#1A5319]">{selectedQuizTypes.join(", ")}</span>
             </h4>
             <GreenButton
-              title={`Start Quiz: ${decodedRegion} - ${quizType}`}
+              title={`Start Quiz: ${decodedRegion} - ${selectedQuizTypes.join(", ")}`}
               onClick={handleStartQuiz}
               width="w-full max-w-[18rem]"
               height="h-[2.8rem] p-4"
