@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
+    "leaflet-providers": "^2.0.0",
     "lucide-react": "^0.446.0",
     "next": "14.2.13",
     "next-themes": "^0.3.0",

@@ -8,23 +8,20 @@ import Sidebar from '@/components/common/Sidebar';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
 
-// Define the Place type
 type Place = {
   id: number;
   name: string;
-  position: [number, number]; // Correctly using tuple for position
+  position: [number, number];
 };
 
 const QuizTypePage = () => {
-  const { country, region, quizType } = useParams(); // Extract parameters from the URL
+  const { country, region, quizType } = useParams();
   const [countryName, setCountryName] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Sample data for demonstration; replace with your actual places data
   const places: Place[] = [
     { id: 1, name: 'City 1', position: [51.505, -0.09] as [number, number] },
     { id: 2, name: 'City 2', position: [51.51, -0.1] as [number, number] },
-    // Add more places as needed
   ];
 
   useEffect(() => {
@@ -42,6 +39,9 @@ const QuizTypePage = () => {
     fetchCountryName();
   }, [country]);
 
+  const regionString = Array.isArray(region) ? region[0] : region;
+  const decodedRegion = regionString ? decodeURIComponent(regionString) : '';
+
   if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
   if (!country) return <div className="flex justify-center items-center h-screen">No country selected.</div>;
 
@@ -53,9 +53,9 @@ const QuizTypePage = () => {
             <Space height="20px" />
 
             <h1 className="text-4xl font-bold mb-4">
-                {countryName || country} - {quizType} in {region}
+                {countryName || country} - {quizType} in {decodedRegion}
             </h1>
-            <div className="w-full max-w-[80%] h-[500px] mb-6"> {/* Increased height */}
+            <div className="w-full max-w-[80%] h-[500px] mb-6">
                 <SimpleMap center={[51.505, -0.09]} zoom={10} places={places} />
             </div>
         </main>

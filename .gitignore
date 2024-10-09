@@ -39,3 +39,6 @@ next-env.d.ts
 # docs
 /docs/brb.txt
 /docs/todo.txt
+
+#map config file
+/src/config.js
