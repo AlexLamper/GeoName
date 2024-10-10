@@ -24,7 +24,7 @@ interface SimpleMapProps {
 }
 
 const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
-  const [mapType, setMapType] = useState<string>('google-maps-like'); // Set the default map type here
+  const [mapType, setMapType] = useState<string>('google-maps-like');
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

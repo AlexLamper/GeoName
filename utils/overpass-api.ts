@@ -1,8 +1,7 @@
-// utils/overpass-api.ts
-
-// Step 1: Define TypeScript Interfaces for Overpass Data
 interface OverpassElement {
   id: number;
+  lat: number;
+  lon: number;
   tags: {
     name: string;
     "ISO3166-1:alpha2"?: string;
@@ -23,6 +22,17 @@ export interface Region {
     name: string;
   };
 }
+
+export type Place = {
+  id: number;
+  name: string;
+  position: [number, number];
+  tags?: {
+    name?: string;
+  };
+  lat: number;
+  lon: number;
+};
 
   const continentMapping: Record<string, string> = {
     "AF": "Africa",
@@ -279,7 +289,58 @@ export async function fetchRegionsByCountry(country: string): Promise<Region[] |
     return null;
   }
 }
-  
 
-  
-  
+export const testFetchPlaces = async () => {
+  const regionId = 3600000000; // Use the New York City region ID
+  const places = await fetchPlacesByRegion(regionId);
+  console.log('Test Fetch Places:', places);
+};
+
+
+// Function to fetch places by region
+export async function fetchPlacesByRegion(regionId: number): Promise<Place[] | null> {
+  // Ensure regionId is a valid number
+  if (isNaN(regionId) || regionId <= 0) {
+    console.error(`Invalid region ID: ${regionId}`);
+    return null; // Invalid region ID, return null
+  }
+
+  const query = `
+    [out:json][timeout:25];
+    relation(${regionId}) -> .searchArea;
+    node(area.searchArea)["place"];
+    out body;
+  `;
+
+  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Fetched Places Data:', data); // Debugging output
+
+    if (data.elements.length === 0) {
+      console.log(`No places found for region ID ${regionId}`);
+      return null; // No places found
+    }
+
+    return data.elements.map((element: OverpassElement) => ({
+      id: element.id,
+      name: element.tags.name,
+      position: [element.lat, element.lon] as [number, number],
+      lat: element.lat,
+      lon: element.lon,
+      tags: element.tags, // Include tags for additional info if needed
+    }));
+  } catch (error) {
+    console.error("Error fetching places:", error);
+    return null;
+  }
+}
+
+
+ 
