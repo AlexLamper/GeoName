@@ -295,12 +295,6 @@ export async function fetchRegionsByCountry(country: string): Promise<Region[] |
   }
 }
 
-export const testFetchPlaces = async () => {
-  const regionId = 3600000000; // Use the New York City region ID
-  const places = await fetchPlacesByRegion(regionId);
-  console.log('Test Fetch Places:', places);
-};
-
 
 // Function to fetch places by region
 export async function fetchPlacesByRegion(regionId: number): Promise<Place[] | null> {

@@ -3,11 +3,10 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import QuizMap from '@/components/quiz/QuizMap';
-import { fetchCountries, fetchPlacesByRegion, fetchRegionsByCountry, testFetchPlaces } from '@/utils/overpass-api';
+import { fetchCountries, fetchPlacesByRegion, fetchRegionsByCountry} from '@/utils/overpass-api';
 import Sidebar from '@/components/common/Sidebar';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
-import { Button } from '@/components/ui/button';
 
 type Place = {
   id: number;
@@ -108,9 +107,6 @@ const QuizTypePage = () => {
         <h1 className="text-4xl font-bold mb-4">
           {countryName || country} - {quizType} in {decodedRegion}
         </h1>
-        <Button onClick={testFetchPlaces} title="Test Fetch Places">
-          Test Fetch Places
-        </Button>
         <div className="w-full max-w-[80%] h-[500px] mb-6">
           {mapCenter && places.length > 0 ? (
             <QuizMap center={mapCenter} zoom={mapZoom} places={places} />
