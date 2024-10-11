@@ -278,12 +278,17 @@ export async function fetchRegionsByCountry(country: string): Promise<Region[] |
       return null; // No regions found
     }
 
-    return data.elements.map((element: OverpassElement) => ({
-      id: element.id,
-      tags: {
-        name: element.tags["name"],
-      },
-    }));
+    // Log each region ID while mapping
+    return data.elements.map((element: OverpassElement) => {
+      const regionId = element.id; // Get the region ID
+      console.log(`Region ID: ${regionId}`); // Log the region ID
+      return {
+        id: regionId,
+        tags: {
+          name: element.tags["name"],
+        },
+      };
+    });
   } catch (error) {
     console.error("Error fetching regions:", error);
     return null;
@@ -305,11 +310,18 @@ export async function fetchPlacesByRegion(regionId: number): Promise<Place[] | n
     return null; // Invalid region ID, return null
   }
 
+  // Convert the regionId to the correct areaId by adding 360 as a prefix
+  const areaId = 3600000000 + regionId;
+
   const query = `
-    [out:json][timeout:25];
-    relation(${regionId}) -> .searchArea;
-    node(area.searchArea)["place"];
-    out body;
+    [out:json][timeout:150];
+    area(${areaId})->.regionArea;
+    (
+      node["place"](area.regionArea);
+      way["place"](area.regionArea);
+      rel["place"](area.regionArea);
+    );
+    out body center;
   `;
 
   const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
@@ -341,6 +353,3 @@ export async function fetchPlacesByRegion(regionId: number): Promise<Place[] | n
     return null;
   }
 }
-
-
- 

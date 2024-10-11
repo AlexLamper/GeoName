@@ -4,6 +4,10 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import config from '@/src/config/config';
 
+// Define the default map center as a fallback
+const DEFAULT_CENTER: [number, number] = [51.1657, 10.4515]; // Example: Centered on Germany
+const DEFAULT_ZOOM = 5;
+
 const DefaultIcon = L.icon({
   iconUrl: '/icons/marker.svg',
   iconSize: [30, 42],
@@ -34,6 +38,26 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
   if (!isClient) {
     return null;
   }
+
+  // Validate the center and provide a fallback if necessary
+  const isValidLatLng = (coords: [number, number]) => {
+    return (
+      Array.isArray(coords) &&
+      coords.length === 2 &&
+      typeof coords[0] === 'number' &&
+      typeof coords[1] === 'number' &&
+      !isNaN(coords[0]) &&
+      !isNaN(coords[1])
+    );
+  };
+
+  const safeCenter = isValidLatLng(center) ? center : DEFAULT_CENTER;
+  const safeZoom = !isNaN(zoom) && zoom > 0 ? zoom : DEFAULT_ZOOM;
+
+  // Filter out places with invalid positions
+  const validPlaces = places.filter((place) =>
+    isValidLatLng(place.position)
+  );
 
   const getTileLayer = () => {
     switch (mapType) {
@@ -114,13 +138,13 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
         </select>
       </div>
       <MapContainer
-        center={center}
-        zoom={zoom}
+        center={safeCenter}
+        zoom={safeZoom}
         style={{ height: '600px', width: '100%', borderRadius: '0.5rem', overflow: 'hidden' }}
         className="shadow-lg"
       >
         {getTileLayer()}
-        {places.map((place) => (
+        {validPlaces.map((place) => (
           <Marker key={place.id} position={place.position} icon={DefaultIcon}>
             <Popup>{place.name}</Popup>
           </Marker>
