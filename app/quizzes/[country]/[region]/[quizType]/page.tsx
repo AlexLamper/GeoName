@@ -2,13 +2,13 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import QuizMap from '@/components/quiz/QuizMap';
+// import QuizMap from '@/components/quiz/QuizMap';
 import { fetchCountries, fetchPlacesByRegion, fetchRegionsByCountry } from '@/utils/overpass-api';
 import Sidebar from '@/components/common/Sidebar';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
-// import ClickPlaceQuiz from '@/components/quiz/mode/ClickPlaceQuiz';
-// import NamePlaceQuiz from '@/components/quiz/mode/NamePlaceQuiz';
+import ClickPlaceQuiz from '@/components/quiz/mode/ClickPlaceQuiz';
+import NamePlaceQuiz from '@/components/quiz/mode/NamePlaceQuiz';
 
 type Place = {
   id: number;
@@ -26,9 +26,9 @@ const QuizTypePage = () => {
   const [countryName, setCountryName] = useState<string | null>(null);
   const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
-  const [mapZoom, setMapZoom] = useState<number>(10);
-  // const [selectedMode, setSelectedMode] = useState<'click' | 'name'>('click');
+  // const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
+  // const [mapZoom, setMapZoom] = useState<number>(10);
+  const [selectedMode, setSelectedMode] = useState<'click' | 'name'>('click'); // State for selected quiz mode
 
   useEffect(() => {
     const fetchCountryAndPlaces = async () => {
@@ -69,14 +69,14 @@ const QuizTypePage = () => {
             setPlaces(placesWithPositions as Place[]);
 
             // Calculate the center point of the region based on the places
-            if (placesWithPositions.length > 0) {
-              const latitudes = placesWithPositions.map((p) => p.position[0]);
-              const longitudes = placesWithPositions.map((p) => p.position[1]);
-              const avgLat = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
-              const avgLon = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
-              setMapCenter([avgLat, avgLon]);
-              setMapZoom(8);
-            }
+            // if (placesWithPositions.length > 0) {
+            //   const latitudes = placesWithPositions.map((p) => p.position[0]);
+            //   const longitudes = placesWithPositions.map((p) => p.position[1]);
+            //   const avgLat = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
+            //   const avgLon = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
+            //   setMapCenter([avgLat, avgLon]);
+            //   setMapZoom(8);
+            // }
           } else {
             console.log(`No places fetched for region ID ${regionId} and quiz type ${quizType}`);
           }
@@ -96,10 +96,6 @@ const QuizTypePage = () => {
   const regionString = Array.isArray(region) ? region[0] : region;
   const decodedRegion = regionString ? decodeURIComponent(regionString) : '';
 
-  // const handleModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setSelectedMode(event.target.value as 'click' | 'name'); // Update selected mode
-  // };
-
   if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
   if (!country) return <div className="flex justify-center items-center h-screen">No country selected.</div>;
 
@@ -113,18 +109,24 @@ const QuizTypePage = () => {
         <h1 className="text-4xl font-bold mb-4">
           {countryName || country} - {quizType} in {decodedRegion}
         </h1>
-  
-        <div className="w-full max-w-[80%] h-[500px] mb-6">
-          {mapCenter && places.length > 0 ? (
-            <QuizMap center={mapCenter} zoom={mapZoom} places={places} />
-          ) : (
-            <div>No places available for the selected region.</div>
-          )}
+        
+        {/* Quiz Mode Switch */}
+        <div className="mb-4">
+          <label className="mr-2">Select Quiz Mode:</label>
+          <select value={selectedMode} onChange={(e) => setSelectedMode(e.target.value as 'click' | 'name')}>
+            <option value="click">Click Place Quiz</option>
+            <option value="name">Name Place Quiz</option>
+          </select>
         </div>
+
+        {selectedMode === 'click' ? (
+          <ClickPlaceQuiz places={places} />
+        ) : (
+          <NamePlaceQuiz places={places} />
+        )}
       </main>
     </div>
   );
-  
 };
 
 export default QuizTypePage;
