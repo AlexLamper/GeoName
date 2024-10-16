@@ -25,6 +25,7 @@ interface SimpleMapProps {
   center: [number, number];
   zoom: number;
   places: Array<{ id: number; name: string; position: [number, number] }>;
+  onMarkerClick?: (placeId: number) => void;
 }
 
 const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {

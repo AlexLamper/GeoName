@@ -7,6 +7,8 @@ import { fetchCountries, fetchPlacesByRegion, fetchRegionsByCountry } from '@/ut
 import Sidebar from '@/components/common/Sidebar';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
+// import ClickPlaceQuiz from '@/components/quiz/mode/ClickPlaceQuiz';
+// import NamePlaceQuiz from '@/components/quiz/mode/NamePlaceQuiz';
 
 type Place = {
   id: number;
@@ -26,6 +28,7 @@ const QuizTypePage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
   const [mapZoom, setMapZoom] = useState<number>(10);
+  // const [selectedMode, setSelectedMode] = useState<'click' | 'name'>('click');
 
   useEffect(() => {
     const fetchCountryAndPlaces = async () => {
@@ -93,6 +96,10 @@ const QuizTypePage = () => {
   const regionString = Array.isArray(region) ? region[0] : region;
   const decodedRegion = regionString ? decodeURIComponent(regionString) : '';
 
+  // const handleModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedMode(event.target.value as 'click' | 'name'); // Update selected mode
+  // };
+
   if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
   if (!country) return <div className="flex justify-center items-center h-screen">No country selected.</div>;
 
@@ -102,10 +109,11 @@ const QuizTypePage = () => {
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
         <QuizBreadcrumbs />
         <Space height="20px" />
-
+  
         <h1 className="text-4xl font-bold mb-4">
           {countryName || country} - {quizType} in {decodedRegion}
         </h1>
+  
         <div className="w-full max-w-[80%] h-[500px] mb-6">
           {mapCenter && places.length > 0 ? (
             <QuizMap center={mapCenter} zoom={mapZoom} places={places} />
@@ -116,6 +124,7 @@ const QuizTypePage = () => {
       </main>
     </div>
   );
+  
 };
 
 export default QuizTypePage;
