@@ -14,7 +14,7 @@ const CountryQuizPage = () => {
   const { country } = useParams();
   const router = useRouter(); // Initialize useRouter
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
-  const [quizType, setQuizType] = useState<string | null>(null);
+  // const [quizType, setQuizType] = useState<string | null>(null);
   const [regions, setRegions] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [countryName, setCountryName] = useState<string | null>(null);
@@ -25,9 +25,9 @@ const CountryQuizPage = () => {
     router.push(`/quizzes/${country}/${region}`);
   };
 
-  const handleQuizTypeSelect = (type: string) => {
-    setQuizType(type);
-  };
+  // const handleQuizTypeSelect = (type: string) => {
+  //   setQuizType(type);
+  // };
 
   useEffect(() => {
     const fetchRegions = async () => {
@@ -118,34 +118,8 @@ const CountryQuizPage = () => {
             )}
           </div>
         ) : (
-          <div>
-            <h2 className="text-2xl font-semibold mt-6 mb-4">{`You selected: ${selectedRegion}`}</h2>
-
-            <h3 className="text-xl font-semibold mt-4">Select Quiz Type</h3>
-            <div className="flex flex-col gap-2 mt-2">
-              {["Cities", "Towns", "Villages", "Hamlets", "All"].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => handleQuizTypeSelect(type)}
-                  className={`border border-gray-300 rounded-[0.4rem] p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15 ${quizType === type ? 'bg-gray-200' : ''}`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-
-            {quizType && (
-              <div className="mt-4">
-                <h4 className="text-lg">You selected: {quizType}</h4>
-                <GreenButton
-                  title={`Start Quiz for ${selectedRegion} - ${quizType}`}
-                  onClick={() => console.log('Starting quiz for', selectedRegion, 'with type:', quizType)}
-                  width="w-full max-w-[18rem]"
-                  height="h-[2.8rem] p-4"
-                  fontSize="text-[1.2rem]"
-                />
-              </div>
-            )}
+          <div className="flex items-center justify-center h-screen opacity-80">
+            <p>loading...</p>
           </div>
         )}
       </main>
