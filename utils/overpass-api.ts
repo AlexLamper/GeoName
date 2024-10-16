@@ -297,26 +297,47 @@ export async function fetchRegionsByCountry(country: string): Promise<Region[] |
 
 
 // Function to fetch places by region
-export async function fetchPlacesByRegion(regionId: number): Promise<Place[] | null> {
-  // Ensure regionId is a valid number
+export async function fetchPlacesByRegion(
+  regionId: number,
+  quizType: string
+): Promise<Place[] | null> {
   if (isNaN(regionId) || regionId <= 0) {
     console.error(`Invalid region ID: ${regionId}`);
-    return null; // Invalid region ID, return null
+    return null;
   }
 
   // Convert the regionId to the correct areaId by adding 360 as a prefix
   const areaId = 3600000000 + regionId;
 
+  // Map quizType to Overpass place types
+  const placeTypesMap: Record<string, string[]> = {
+    Cities: ['city'],
+    Towns: ['town'],
+    Villages: ['village'],
+    All: ['city', 'town', 'village']
+  };
+
+  // Get the specific types of places to query based on the user's selection
+  const selectedPlaceTypes = placeTypesMap[quizType] || [];
+
+  // Log the selected quiz type and corresponding place types
+  console.log(`Selected quiz type: ${quizType}`);
+  console.log(`Mapped place types for this quiz: ${selectedPlaceTypes.join(', ')}`);
+
+  // Construct the Overpass API query dynamically based on selected place types
   const query = `
     [out:json][timeout:150];
     area(${areaId})->.regionArea;
     (
-      node["place"](area.regionArea);
-      way["place"](area.regionArea);
-      rel["place"](area.regionArea);
+      ${selectedPlaceTypes.map(type => `node["place"="${type}"](area.regionArea);`).join('\n')}
+      ${selectedPlaceTypes.map(type => `way["place"="${type}"](area.regionArea);`).join('\n')}
+      ${selectedPlaceTypes.map(type => `rel["place"="${type}"](area.regionArea);`).join('\n')}
     );
     out body center;
   `;
+
+  // Log the generated query for debugging purposes
+  console.log('Generated Overpass API query:', query);
 
   const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
 
@@ -327,12 +348,15 @@ export async function fetchPlacesByRegion(regionId: number): Promise<Place[] | n
     }
 
     const data = await response.json();
-    console.log('Fetched Places Data:', data); // Debugging output
+    console.log('Fetched Places Data:', data);
 
     if (data.elements.length === 0) {
-      console.log(`No places found for region ID ${regionId}`);
-      return null; // No places found
+      console.log(`No places found for region ID ${regionId} with quiz type ${quizType}`);
+      return null;
     }
+
+    // Log the number of places found
+    console.log(`Number of places found for quiz type ${quizType}: ${data.elements.length}`);
 
     return data.elements.map((element: OverpassElement) => ({
       id: element.id,
@@ -340,10 +364,10 @@ export async function fetchPlacesByRegion(regionId: number): Promise<Place[] | n
       position: [element.lat, element.lon] as [number, number],
       lat: element.lat,
       lon: element.lon,
-      tags: element.tags, // Include tags for additional info if needed
+      tags: element.tags,
     }));
   } catch (error) {
-    console.error("Error fetching places:", error);
+    console.error('Error fetching places:', error);
     return null;
   }
 }

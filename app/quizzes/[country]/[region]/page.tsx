@@ -72,8 +72,9 @@ const RegionQuizPage = () => {
         </p>
 
         <h3 className="text-xl font-semibold mt-4">Select Quiz Type</h3>
+        <p className='text-xs opacity-80 mb-4'>*Multiple selection doesn&apos;t work yet.</p>
         <div className="flex flex-col gap-2 mt-2 lg:max-w-[60%] max-w-[95%]">
-          {["Cities", "Towns", "Villages", "Hamlets", "All"].map((type) => (
+          {["All", "Cities", "Towns", "Villages"].map((type) => (
             <button
               key={type}
               onClick={() => handleQuizTypeSelect(type)}

@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import QuizMap from '@/components/quiz/QuizMap';
-import { fetchCountries, fetchPlacesByRegion, fetchRegionsByCountry} from '@/utils/overpass-api';
+import { fetchCountries, fetchPlacesByRegion, fetchRegionsByCountry } from '@/utils/overpass-api';
 import Sidebar from '@/components/common/Sidebar';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
@@ -38,7 +38,7 @@ const QuizTypePage = () => {
             setCountryName(foundCountry ? foundCountry.name : null);
           }
         }
-  
+
         // Fetch regions for the selected country
         let regionId: number | null = null;
         if (region && typeof region === 'string' && typeof country === 'string') {
@@ -50,22 +50,21 @@ const QuizTypePage = () => {
             }
           }
         }
-  
+
         // Validate and fetch places if regionId is found
-        if (regionId) {
-          console.log(`Fetching places for region ID: ${regionId}`); // Debugging output
-          const fetchedPlaces = await fetchPlacesByRegion(regionId);
-          
+        if (regionId && typeof quizType === 'string') {
+          console.log(`Fetching places for region ID: ${regionId} with quiz type: ${quizType}`);
+          const fetchedPlaces = await fetchPlacesByRegion(regionId, quizType);
+
           if (fetchedPlaces) {
             const placesWithPositions = fetchedPlaces.map((place) => ({
               id: place.id,
-              name: place.tags?.name || place.name, // Use tags if available, fallback to name
-              position: [place.lat, place.lon] as [number, number], // Ensure it's a tuple
+              name: place.tags?.name || place.name,
+              position: [place.lat, place.lon] as [number, number],
             }));
-  
-            console.log('Fetched Places:', placesWithPositions); // Log the fetched places
+
             setPlaces(placesWithPositions as Place[]);
-  
+
             // Calculate the center point of the region based on the places
             if (placesWithPositions.length > 0) {
               const latitudes = placesWithPositions.map((p) => p.position[0]);
@@ -73,13 +72,13 @@ const QuizTypePage = () => {
               const avgLat = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
               const avgLon = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
               setMapCenter([avgLat, avgLon]);
-              setMapZoom(8); // Adjust this value as needed based on your UI design
+              setMapZoom(8);
             }
           } else {
-            console.log(`No places fetched for region ID ${regionId}`);
+            console.log(`No places fetched for region ID ${regionId} and quiz type ${quizType}`);
           }
         } else {
-          console.error(`Invalid region provided: ${region}`);
+          console.error(`Invalid region or quiz type provided: ${region} / ${quizType}`);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -87,16 +86,16 @@ const QuizTypePage = () => {
         setLoading(false);
       }
     };
-  
+
     fetchCountryAndPlaces();
-  }, [country, region]);    
+  }, [country, region, quizType]);
 
   const regionString = Array.isArray(region) ? region[0] : region;
   const decodedRegion = regionString ? decodeURIComponent(regionString) : '';
 
   if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
   if (!country) return <div className="flex justify-center items-center h-screen">No country selected.</div>;
-  
+
   return (
     <div className="flex min-h-screen">
       <Sidebar />
