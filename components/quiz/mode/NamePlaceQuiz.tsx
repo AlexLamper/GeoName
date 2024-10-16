@@ -88,7 +88,7 @@ const NamePlaceQuiz: React.FC<NamePlaceQuizProps> = ({ places }) => {
 
             <button
               type="submit"
-              className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 lg:max-w-[40%]"
+              className="bg-[#508D4E] text-white p-2 rounded hover:bg-[#51864f] transition duration-300 lg:max-w-[40%]"
             >
               Submit
             </button>

@@ -2,7 +2,6 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-// import QuizMap from '@/components/quiz/QuizMap';
 import { fetchCountries, fetchPlacesByRegion, fetchRegionsByCountry } from '@/utils/overpass-api';
 import Sidebar from '@/components/common/Sidebar';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
@@ -26,8 +25,6 @@ const QuizTypePage = () => {
   const [countryName, setCountryName] = useState<string | null>(null);
   const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  // const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
-  // const [mapZoom, setMapZoom] = useState<number>(10);
   const [selectedMode, setSelectedMode] = useState<'click' | 'name'>('click'); // State for selected quiz mode
 
   useEffect(() => {
@@ -67,16 +64,6 @@ const QuizTypePage = () => {
             }));
 
             setPlaces(placesWithPositions as Place[]);
-
-            // Calculate the center point of the region based on the places
-            // if (placesWithPositions.length > 0) {
-            //   const latitudes = placesWithPositions.map((p) => p.position[0]);
-            //   const longitudes = placesWithPositions.map((p) => p.position[1]);
-            //   const avgLat = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
-            //   const avgLon = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
-            //   setMapCenter([avgLat, avgLon]);
-            //   setMapZoom(8);
-            // }
           } else {
             console.log(`No places fetched for region ID ${regionId} and quiz type ${quizType}`);
           }
@@ -111,13 +98,30 @@ const QuizTypePage = () => {
         </h1>
         
         {/* Quiz Mode Switch */}
-        <div className="mb-4">
-          <label className="mr-2">Select Quiz Mode:</label>
-          <select value={selectedMode} onChange={(e) => setSelectedMode(e.target.value as 'click' | 'name')}>
-            <option value="click">Click Place Quiz</option>
-            <option value="name">Name Place Quiz</option>
-          </select>
+        <div className="mb-4 flex items-center">
+          <label className="mr-4 text-gray-700 font-semibold">Select Quiz Mode:</label>
+          <div className="relative">
+            <input
+              type="checkbox"
+              id="quiz-mode-switch"
+              className="sr-only"
+              checked={selectedMode === 'name'}
+              onChange={() => setSelectedMode(selectedMode === 'click' ? 'name' : 'click')}
+            />
+            <div
+              className={`block w-14 h-8 rounded-full ${selectedMode === 'name' ? 'bg-blue-500' : 'bg-gray-300'}`}
+            ></div>
+            <div
+              className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow transition-transform ${
+                selectedMode === 'name' ? 'transform translate-x-6' : ''
+              }`}
+            ></div>
+          </div>
+          <span className="ml-4 text-gray-600">
+            {selectedMode === 'click' ? 'Click Place Quiz' : 'Name Place Quiz'}
+          </span>
         </div>
+
 
         {selectedMode === 'click' ? (
           <ClickPlaceQuiz places={places} />

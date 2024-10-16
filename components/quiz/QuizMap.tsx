@@ -123,7 +123,7 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
 
   return (
     <div className="w-full">
-      <div className="mt-6">
+      <div className="mt-6 mb-1">
         <select
           value={mapType}
           onChange={(e) => setMapType(e.target.value)}
