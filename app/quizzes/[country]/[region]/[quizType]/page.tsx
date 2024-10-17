@@ -94,7 +94,7 @@ const QuizTypePage = () => {
         <Space height="20px" />
   
         <h1 className="text-4xl font-bold mb-4">
-          {countryName || country} - {quizType} in {decodedRegion}
+          <span style={{ color: '#1A5319' }}>{countryName || country}</span> - {quizType} in <span style={{ color: '#1A5319' }}>{decodedRegion}</span>
         </h1>
         
         {/* Quiz Mode Switch */}

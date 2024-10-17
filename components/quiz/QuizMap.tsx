@@ -8,17 +8,12 @@ import config from '@/src/config/config';
 const DEFAULT_CENTER: [number, number] = [51.1657, 10.4515]; // Example: Centered on Germany
 const DEFAULT_ZOOM = 5;
 
-const DefaultIcon = L.icon({
-  iconUrl: '/icons/marker.svg',
-  iconSize: [30, 42],
-  iconAnchor: [15, 42],
-  popupAnchor: [0, -42],
-});
-
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: '/icons/marker.svg',
-  iconUrl: '/icons/marker.svg',
-  shadowUrl: '/leaflet/images/marker-shadow.png',
+// Define the red dot icon for markers
+const RedDotIcon = L.divIcon({
+  className: 'custom-red-dot',
+  html: '<div style="background-color: red; width: 20px; height: 20px; border-radius: 50%; border: 1px solid white;"></div>',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10], // Center the red dot over the exact point
 });
 
 interface SimpleMapProps {
@@ -28,7 +23,7 @@ interface SimpleMapProps {
   onMarkerClick?: (placeId: number) => void;
 }
 
-const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
+const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places, onMarkerClick }) => {
   const [mapType, setMapType] = useState<string>('google-maps-like');
   const [isClient, setIsClient] = useState(false);
 
@@ -36,6 +31,7 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
     setIsClient(true);
   }, []);
 
+  // Ensure the component is rendered only on the client-side
   if (!isClient) {
     return null;
   }
@@ -60,6 +56,7 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
     isValidLatLng(place.position)
   );
 
+  // Function to get the appropriate TileLayer based on the selected map type
   const getTileLayer = () => {
     switch (mapType) {
       case 'jawg-dark':
@@ -146,7 +143,14 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places }) => {
       >
         {getTileLayer()}
         {validPlaces.map((place) => (
-          <Marker key={place.id} position={place.position} icon={DefaultIcon}>
+          <Marker
+            key={place.id}
+            position={place.position}
+            icon={RedDotIcon}
+            eventHandlers={{
+              click: () => onMarkerClick && onMarkerClick(place.id),
+            }}
+          >
             <Popup>{place.name}</Popup>
           </Marker>
         ))}
