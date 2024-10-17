@@ -40,8 +40,8 @@ const NamePlaceQuiz: React.FC<NamePlaceQuizProps> = ({ places }) => {
     if (currentPlace) {
       if (userInput.trim().toLowerCase() === currentPlace.name.toLowerCase()) {
         setScore(score + 1);
-        setMessage('✅ Correct!');
-        setTimeout(() => selectNewPlace(), 2000); // Move to the next question after a short delay
+        setMessage('✅ Correct');
+        setTimeout(() => selectNewPlace(), 500); // Move to the next question after a short delay
       } else {
         handleIncorrectAnswer();
       }
@@ -88,14 +88,14 @@ const NamePlaceQuiz: React.FC<NamePlaceQuizProps> = ({ places }) => {
 
             <button
               type="submit"
-              className="bg-[#508D4E] text-white p-2 rounded hover:bg-[#51864f] transition duration-300 lg:max-w-[40%]"
+              className="bg-[#508D4E] text-white p-2 rounded hover:bg-[#51864f] transition lg:max-w-[40%]"
             >
               Submit
             </button>
           </form>
 
           {message && (
-            <div className={`mt-2 text-center p-2 rounded ${message.includes('Correct') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            <div className={`mt-2 text-center p-2 rounded max-w-[40%] ${message.includes('Correct') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
               {message}
             </div>
           )}
