@@ -25,7 +25,7 @@ const QuizTypePage = () => {
   const [countryName, setCountryName] = useState<string | null>(null);
   const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedMode, setSelectedMode] = useState<'click' | 'name'>('click'); // State for selected quiz mode
+  const [selectedMode, setSelectedMode] = useState<'click' | 'name'>('click');
 
   useEffect(() => {
     const fetchCountryAndPlaces = async () => {
@@ -99,29 +99,30 @@ const QuizTypePage = () => {
         
         {/* Quiz Mode Switch */}
         <div className="mb-4 flex items-center">
-          <label className="mr-4 text-gray-700 font-semibold">Select Quiz Mode:</label>
-          <div className="relative">
+          <span className="mr-2">Select Quiz Mode:</span>
+          <label htmlFor="quiz-mode-toggle" className="relative inline-block w-14 h-8 hover:cursor-pointer">
             <input
               type="checkbox"
-              id="quiz-mode-switch"
-              className="sr-only"
+              id="quiz-mode-toggle"
               checked={selectedMode === 'name'}
               onChange={() => setSelectedMode(selectedMode === 'click' ? 'name' : 'click')}
+              className="sr-only"
             />
             <div
-              className={`block w-14 h-8 rounded-full ${selectedMode === 'name' ? 'bg-blue-500' : 'bg-gray-300'}`}
+              className={`block w-full h-full rounded-full ${
+                selectedMode === 'name' ? 'bg-blue-500' : 'bg-gray-300'
+              } transition-colors duration-300`}
             ></div>
             <div
-              className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow transition-transform ${
-                selectedMode === 'name' ? 'transform translate-x-6' : ''
+              className={`absolute left-1 top-1 w-6 h-6 rounded-full bg-white transition-transform duration-300 ${
+                selectedMode === 'name' ? 'translate-x-6' : ''
               }`}
             ></div>
-          </div>
-          <span className="ml-4 text-gray-600">
-            {selectedMode === 'click' ? 'Click Place Quiz' : 'Name Place Quiz'}
+          </label>
+          <span className="ml-2 text-gray-600">
+            {selectedMode === 'name' ? 'Name Place Quiz' : 'Click Place Quiz'}
           </span>
         </div>
-
 
         {selectedMode === 'click' ? (
           <ClickPlaceQuiz places={places} />
