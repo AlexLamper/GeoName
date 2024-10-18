@@ -42,3 +42,4 @@ next-env.d.ts
 
 #map config file
 /src/config.js
+.vercel

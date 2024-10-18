@@ -12,4 +12,3 @@ export const fetchQuizData = async (country: string, region: string, quizType: s
       return [];
     }
   };
-  
