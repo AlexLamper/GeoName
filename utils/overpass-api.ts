@@ -223,7 +223,7 @@ export type Place = {
   };
 
   
-  // Function to fetch countries
+ // Function to fetch countries
 export async function fetchCountries(): Promise<Country[] | null> {
   const query = `
     [out:json];
@@ -232,6 +232,7 @@ export async function fetchCountries(): Promise<Country[] | null> {
   `;
 
   const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+  console.log('Fetching countries from URL:', url); // Log the URL
 
   try {
     const response = await fetch(url);
@@ -244,7 +245,7 @@ export async function fetchCountries(): Promise<Country[] | null> {
       const isoCode = element.tags["ISO3166-1:alpha2"];
       return {
         id: element.id,
-        name: element.tags["name:en"] || element.tags["name"],
+        name: element.tags["name:en"] || element.tags["name"] || "Unnamed", // Fallback for name
         iso_code: isoCode || "N/A",
         continent: isoCode ? continentMapping[isoCode] || "Unknown" : "Unknown",
       };
@@ -265,6 +266,7 @@ export async function fetchRegionsByCountry(country: string): Promise<Region[] |
   `;
 
   const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+  console.log('Fetching regions from URL:', url); // Log the URL
 
   try {
     const response = await fetch(url);
@@ -278,14 +280,13 @@ export async function fetchRegionsByCountry(country: string): Promise<Region[] |
       return null; // No regions found
     }
 
-    // Log each region ID while mapping
     return data.elements.map((element: OverpassElement) => {
       const regionId = element.id; // Get the region ID
       console.log(`Region ID: ${regionId}`); // Log the region ID
       return {
         id: regionId,
         tags: {
-          name: element.tags["name"],
+          name: element.tags["name"] || "Unnamed", // Fallback for name
         },
       };
     });
@@ -294,7 +295,6 @@ export async function fetchRegionsByCountry(country: string): Promise<Region[] |
     return null;
   }
 }
-
 
 // Function to fetch places by region
 export async function fetchPlacesByRegion(
@@ -340,6 +340,7 @@ export async function fetchPlacesByRegion(
   console.log('Generated Overpass API query:', query);
 
   const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+  console.log('Fetching places from URL:', url); // Log the URL
 
   try {
     const response = await fetch(url);
@@ -360,7 +361,7 @@ export async function fetchPlacesByRegion(
 
     return data.elements.map((element: OverpassElement) => ({
       id: element.id,
-      name: element.tags.name,
+      name: element.tags.name || "Unnamed", // Fallback for name
       position: [element.lat, element.lon] as [number, number],
       lat: element.lat,
       lon: element.lon,

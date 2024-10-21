@@ -20,10 +20,11 @@ const CountryQuizPage = () => {
   const [countryName, setCountryName] = useState<string | null>(null);
 
   const handleRegionSelect = (region: string) => {
-    setSelectedRegion(region); // Set the selected region
-    // Navigate to the new URL for the selected region
-    router.push(`/quizzes/${country}/${region}`);
-  };
+    setSelectedRegion(region); 
+    // Encode the region for safe URL use
+    const encodedRegion = encodeURIComponent(region);
+    router.push(`/quizzes/${country}/${encodedRegion}`);
+  };  
 
   // const handleQuizTypeSelect = (type: string) => {
   //   setQuizType(type);
