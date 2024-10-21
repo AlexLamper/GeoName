@@ -80,7 +80,7 @@ const Leaderboard = () => {
   });
 
   return (
-    <div className="p-4">
+    <div className="py-4">
       <h1 className="text-2xl font-bold mb-4">Leaderboard</h1>
       {error && <div className="text-red-500">{error}</div>}
       {/* Render the table */}

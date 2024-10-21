@@ -1,16 +1,17 @@
 "use client";
 
+import BackButton from '@/components/common/BackButton';
 import Sidebar from '@/components/common/Sidebar';
 import Leaderboard from '@/components/Leaderboard';
-import { useAuth } from '@clerk/nextjs';
 
 const LeaderboardPage = () => {
-  const { isSignedIn } = useAuth();
 
   return (
     <div className="flex min-h-screen">
-      {isSignedIn && <Sidebar />}
-      <main className="flex-1 flex flex-col">
+      {/* Sidebar */}
+      <Sidebar />
+      <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
+        <BackButton />
         <Leaderboard />
       </main>
     </div>

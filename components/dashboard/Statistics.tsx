@@ -59,14 +59,14 @@ const Statistics = () => {
       header: 'Your Score:',
       statistic: userScore !== null ? userScore.toString() : 'Loading...',
       icon: <FaTrophy size={30} />,
-      href: '#',
+      href: '/profile',
     },
     {
       id: 2,
       header: 'Leaderboard Placement:',
       statistic: leaderboardPlacement !== null ? `#${leaderboardPlacement}` : 'Loading...',
       icon: <FaTrophy size={30} />,
-      href: '#',
+      href: '/leaderboard',
     },
     // {
     //   id: 3,

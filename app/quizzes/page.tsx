@@ -8,6 +8,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import Space from "@/components/common/Space";
 import GreenButton from '@/components/buttons/GreenButton';
 import Link from 'next/link';
+import BackButton from '@/components/common/BackButton';
 
 const QuizzesPage = () => {
   const [countries, setCountries] = useState<Country[]>([]);
@@ -40,6 +41,8 @@ const QuizzesPage = () => {
       {/* Sidebar */}
       <Sidebar />
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
+        <BackButton />
+        <Space height='15px' />
         <h1 className="text-4xl font-bold mb-2">Choose the quiz <span style={{ color: '#1A5319' }}>Country</span></h1>
         <p className="opacity-80 mb-8">
             On this page you can choose a country which you want to play the quiz of!
