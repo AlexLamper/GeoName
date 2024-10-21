@@ -19,12 +19,13 @@ const CountryQuizPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [countryName, setCountryName] = useState<string | null>(null);
 
+  // Update this function to ensure it encodes the region correctly
   const handleRegionSelect = (region: string) => {
-    setSelectedRegion(region); 
+    setSelectedRegion(region);
     // Encode the region for safe URL use
     const encodedRegion = encodeURIComponent(region);
     router.push(`/quizzes/${country}/${encodedRegion}`);
-  };  
+};
 
   // const handleQuizTypeSelect = (type: string) => {
   //   setQuizType(type);

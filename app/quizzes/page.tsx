@@ -8,7 +8,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import Space from "@/components/common/Space";
 import GreenButton from '@/components/buttons/GreenButton';
 import Link from 'next/link';
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/buttons/BackButton';
 
 const QuizzesPage = () => {
   const [countries, setCountries] = useState<Country[]>([]);

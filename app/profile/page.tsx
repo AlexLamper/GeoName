@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import Sidebar from '@/components/common/Sidebar';
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/buttons/BackButton';
 import Space from '@/components/common/Space';
 
 export default function ProfilePage() {

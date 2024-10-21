@@ -1,6 +1,6 @@
 "use client";
 
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/buttons/BackButton';
 import Sidebar from '@/components/common/Sidebar';
 import Leaderboard from '@/components/Leaderboard';
 

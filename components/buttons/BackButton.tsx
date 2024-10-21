@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const BackButton: React.FC = () => {
   const router = useRouter();
@@ -7,9 +8,9 @@ const BackButton: React.FC = () => {
   return (
     <button
       onClick={() => router.back()}
-      className="bg-[#508D4E] text-white py-2 rounded-[0.4rem] text-center hover:bg-[#417C3E] transition-colors duration-300 cursor-pointer block w-full md:w-auto px-6 md:px-12"
+      className="flex items-center justify-center p-2 transition-colors duration-300 cursor-pointer"
     >
-      Back
+      <FaArrowLeft size={24} color="#508D4E" />
     </button>
   );
 };
