@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FaTrophy, FaPlayCircle, FaCheckCircle } from 'react-icons/fa';
+import { FaTrophy, 
+  // FaPlayCircle, FaCheckCircle 
+} from 'react-icons/fa';
 import { Card } from "@/components/cards/Card";
 
 type LeaderboardEntry = {
@@ -66,20 +68,20 @@ const Statistics = () => {
       icon: <FaTrophy size={30} />,
       href: '#',
     },
-    {
-      id: 3,
-      header: 'Quizzes Completed:',
-      statistic: '', // Populate as necessary
-      icon: <FaCheckCircle size={30} />,
-      href: '#',
-    },
-    {
-      id: 4,
-      header: 'Quizzes Played:',
-      statistic: '', // Populate as necessary
-      icon: <FaPlayCircle size={30} />,
-      href: '#',
-    },
+    // {
+    //   id: 3,
+    //   header: 'Quizzes Completed:',
+    //   statistic: '',
+    //   icon: <FaCheckCircle size={30} />,
+    //   href: '#',
+    // },
+    // {
+    //   id: 4,
+    //   header: 'Quizzes Played:',
+    //   statistic: '',
+    //   icon: <FaPlayCircle size={30} />,
+    //   href: '#',
+    // },
   ];
 
   return (

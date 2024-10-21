@@ -84,12 +84,12 @@ const Leaderboard = () => {
       <h1 className="text-2xl font-bold mb-4">Leaderboard</h1>
       {error && <div className="text-red-500">{error}</div>}
       {/* Render the table */}
-      <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow">
+      <table className="min-w-full border border-gray-300 rounded-lg shadow">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="px-4 py-2 text-left border-b bg-gray-100">
+                <th key={header.id} className="px-4 py-2 text-left border-b">
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
@@ -98,7 +98,7 @@ const Leaderboard = () => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="border-b hover:bg-gray-50">
+            <tr key={row.id} className="border-b hover:bg-opacity-80">
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className="px-4 py-2">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
