@@ -1,4 +1,4 @@
 TODO
 ================================================================================
-- Add a score system. (Which is linked to your 'Clerk' account.) You can earn points by completing or playing quizzes.
-- Add a leaderboard page. This page will display the top 100 users with the highest score.
+- Give the user points when completed quiz or guessing correct answers. 
+- Research how to make the quizzes as effective as possible/update the game modes.
