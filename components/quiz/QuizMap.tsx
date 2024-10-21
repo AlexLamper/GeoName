@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import config from '@/src/config/config';
 
-// Define the default map center as a fallback
-const DEFAULT_CENTER: [number, number] = [51.1657, 10.4515]; // Example: Centered on Germany
+const DEFAULT_CENTER: [number, number] = [51.1657, 10.4515];
 const DEFAULT_ZOOM = 5;
 
 // Define the red dot icon for markers
@@ -13,7 +12,7 @@ const RedDotIcon = L.divIcon({
   className: 'custom-red-dot',
   html: '<div style="background-color: red; width: 20px; height: 20px; border-radius: 50%; border: 1px solid white;"></div>',
   iconSize: [20, 20],
-  iconAnchor: [10, 10], // Center the red dot over the exact point
+  iconAnchor: [10, 10],
 });
 
 interface SimpleMapProps {
@@ -151,7 +150,7 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places, onMarkerClick
               click: () => onMarkerClick && onMarkerClick(place.id),
             }}
           >
-            <Popup>{place.name}</Popup>
+            {/* <Popup>{place.name}</Popup> */}
           </Marker>
         ))}
       </MapContainer>

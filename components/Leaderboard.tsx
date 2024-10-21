@@ -1,5 +1,4 @@
-// Import necessary components from ShadCN and others
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ColumnDef,
   useReactTable,
@@ -7,16 +6,19 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 
-// Define the types for the leaderboard data
 type LeaderboardEntry = {
+  id: string;
   name: string;
   score: number;
-  country: string;
-  date: Date;
+  createdAt: Date;
 };
 
 // Define the columns for the DataTable
 const columns: ColumnDef<LeaderboardEntry>[] = [
+  {
+    accessorKey: "rank", // New column for rank
+    header: "Rank",
+  },
   {
     accessorKey: "name",
     header: "Name",
@@ -26,47 +28,53 @@ const columns: ColumnDef<LeaderboardEntry>[] = [
     header: "Score",
   },
   {
-    accessorKey: "country",
-    header: "Country",
-  },
-  {
-    accessorKey: "date",
-    header: "Date",
-    cell: ({ row }) => new Date(row.original.date).toLocaleDateString(),
+    accessorKey: "createdAt",
+    header: "Account Created At",
+    cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
   },
 ];
 
 const Leaderboard = () => {
-  // Sample data for the leaderboard
-  const data: LeaderboardEntry[] = [
-    { name: "User1", score: 150, country: "USA", date: new Date() },
-    { name: "User2", score: 200, country: "Canada", date: new Date() },
-    // Add more sample data here
-  ];
+  const [data, setData] = useState<LeaderboardEntry[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  // State for filters (time period and country)
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState<string>("all");
-  const [selectedCountry, setSelectedCountry] = useState<string>("all");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/user'); // Updated endpoint to fetch all users
+        const result = await response.json();
 
-  // Filter the data based on the selected time period and country
-  const filteredData = data.filter((entry) => {
-    const withinTimePeriod =
-      selectedTimePeriod === "all" ||
-      (selectedTimePeriod === "week" &&
-        entry.date > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) ||
-      (selectedTimePeriod === "month" &&
-        entry.date > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)) ||
-      (selectedTimePeriod === "year" &&
-        entry.date > new Date(Date.now() - 365 * 24 * 60 * 60 * 1000));
-    const withinCountry =
-      selectedCountry === "all" || entry.country === selectedCountry;
+        console.log("API Response:", result);
 
-    return withinTimePeriod && withinCountry;
-  });
+        if (response.ok) {
+          if (Array.isArray(result)) {
+            // Sort users by score in descending order and assign ranks
+            const rankedData = result
+              .sort((a, b) => b.score - a.score) // Sort by score descending
+              .map((user, index) => ({
+                ...user,
+                rank: index + 1, // Assign rank based on index
+              }));
+
+            setData(rankedData);
+          } else {
+            setError("Unexpected response format");
+          }
+        } else {
+          setError(result.error || "Failed to fetch users");
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setError("Error fetching users");
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Initialize the table
   const table = useReactTable({
-    data: filteredData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -74,53 +82,14 @@ const Leaderboard = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Leaderboard</h1>
-
-      {/* Time Period Filter */}
-      <div className="mb-4">
-        <label htmlFor="timePeriod" className="mr-2">
-          Filter by Time Period:
-        </label>
-        <select
-          id="timePeriod"
-          value={selectedTimePeriod}
-          onChange={(e) => setSelectedTimePeriod(e.target.value)}
-          className="p-2 border rounded"
-        >
-          <option value="all">All Time</option>
-          <option value="week">This Week</option>
-          <option value="month">This Month</option>
-          <option value="year">This Year</option>
-        </select>
-      </div>
-
-      {/* Country Filter */}
-      <div className="mb-4">
-        <label htmlFor="country" className="mr-2">
-          Filter by Country:
-        </label>
-        <select
-          id="country"
-          value={selectedCountry}
-          onChange={(e) => setSelectedCountry(e.target.value)}
-          className="p-2 border rounded"
-        >
-          <option value="all">All Countries</option>
-          <option value="USA">USA</option>
-          <option value="Canada">Canada</option>
-          {/* Add more country options here */}
-        </select>
-      </div>
-
+      {error && <div className="text-red-500">{error}</div>}
       {/* Render the table */}
-      <table className="min-w-full bg-white border rounded-lg">
+      <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="px-4 py-2 text-left border-b"
-                >
+                <th key={header.id} className="px-4 py-2 text-left border-b bg-gray-100">
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
@@ -129,7 +98,7 @@ const Leaderboard = () => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="border-b">
+            <tr key={row.id} className="border-b hover:bg-gray-50">
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className="px-4 py-2">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
