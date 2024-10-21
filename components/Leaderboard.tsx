@@ -16,7 +16,7 @@ type LeaderboardEntry = {
 // Define the columns for the DataTable
 const columns: ColumnDef<LeaderboardEntry>[] = [
   {
-    accessorKey: "rank", // New column for rank
+    accessorKey: "rank",
     header: "Rank",
   },
   {

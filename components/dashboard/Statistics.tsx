@@ -2,29 +2,53 @@ import React, { useEffect, useState } from 'react';
 import { FaTrophy, FaPlayCircle, FaCheckCircle } from 'react-icons/fa';
 import { Card } from "@/components/cards/Card";
 
+type LeaderboardEntry = {
+  id: string;
+  name: string;
+  score: number;
+  createdAt: Date;
+  leaderboardPlacement?: number;
+};
+
 const Statistics = () => {
   const [userScore, setUserScore] = useState<number | null>(null);
+  const [leaderboardPlacement, setLeaderboardPlacement] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch user's score from the API
   useEffect(() => {
-    const fetchUserScore = async () => {
+    const fetchUserStats = async () => {
       try {
-        const response = await fetch('/api/user/score'); // Update this to the correct endpoint for user score
-        const result = await response.json();
+        // Fetch user's score
+        const scoreResponse = await fetch('/api/user/score');
+        const scoreResult = await scoreResponse.json();
 
-        if (response.ok) {
-          setUserScore(result.score);
+        if (scoreResponse.ok) {
+          setUserScore(scoreResult.score);
+
+          // Fetch all users to find current user and leaderboard placement
+          const userResponse = await fetch('/api/user');
+          const userResult: LeaderboardEntry[] = await userResponse.json();
+
+          if (userResponse.ok) {
+            // Ensure scoreResult.id exists in userResult
+            const currentUser = userResult.find(user => user.id === scoreResult.id);
+            setLeaderboardPlacement(currentUser?.leaderboardPlacement || null);
+          } else {
+            // Fetch error handling
+            const userErrorResult = await userResponse.json(); // Parse error response
+            setError(userErrorResult.error || "Failed to fetch user data");
+          }
         } else {
-          setError(result.error || "Failed to fetch score");
+          // Score error handling
+          setError(scoreResult.error || "Failed to fetch score");
         }
       } catch (err) {
         console.error("Fetch error:", err);
-        setError("Error fetching user score");
+        setError("Error fetching user statistics");
       }
     };
 
-    fetchUserScore();
+    fetchUserStats();
   }, []);
 
   const cardData = [
@@ -37,23 +61,23 @@ const Statistics = () => {
     },
     {
       id: 2,
-      header: 'Quizzes Completed:',
-      statistic: '',
-      icon: <FaCheckCircle size={30} />,
+      header: 'Leaderboard Placement:',
+      statistic: leaderboardPlacement !== null ? `#${leaderboardPlacement}` : 'Loading...',
+      icon: <FaTrophy size={30} />,
       href: '#',
     },
     {
       id: 3,
-      header: 'Quizzes Played:',
-      statistic: '',
-      icon: <FaPlayCircle size={30} />,
+      header: 'Quizzes Completed:',
+      statistic: '', // Populate as necessary
+      icon: <FaCheckCircle size={30} />,
       href: '#',
     },
     {
       id: 4,
-      header: 'Leaderboard Placement:',
-      statistic: '#20',
-      icon: <FaTrophy size={30} />,
+      header: 'Quizzes Played:',
+      statistic: '', // Populate as necessary
+      icon: <FaPlayCircle size={30} />,
       href: '#',
     },
   ];
