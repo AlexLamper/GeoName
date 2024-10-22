@@ -8,7 +8,8 @@ import { fetchCountries, fetchRegionsByCountry } from '@/utils/overpass-api';
 import { FaArrowRight } from 'react-icons/fa';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { useRouter } from 'next/navigation';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 const CountryQuizPage = () => {
   const { country } = useParams();
@@ -55,7 +56,6 @@ const CountryQuizPage = () => {
       setLoading(false);
     };
 
-    // Fetch country name based on ISO code (country)
     const fetchCountryName = async () => {
       const countries = await fetchCountries(); 
       if (countries) {
@@ -68,17 +68,24 @@ const CountryQuizPage = () => {
     fetchCountryName();
   }, [country]);
 
-  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
   if (!country) return <div className="flex justify-center items-center h-screen">No country selected.</div>;
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
       <Sidebar />
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
-        {/* Back button */}
         <QuizBreadcrumbs />
         <Space height="20px" />
+
+        {/* Loading Alert */}
+        {loading && (
+          <Alert>
+            <AlertTitle><span className='font-semibold text-lg'>Heads up!</span></AlertTitle>
+            <AlertDescription>
+              Please note that loading may take a few seconds sometimes.
+            </AlertDescription>
+          </Alert>
+        )}
 
         <h1 className="text-4xl font-bold mb-2">
           Quiz for <span style={{ color: '#1A5319' }}>{countryName || country}</span>
@@ -89,7 +96,6 @@ const CountryQuizPage = () => {
 
         {!selectedRegion ? (
           <div>
-            {/* Button to play entire country quiz */}
             <GreenButton
               title={`Play Entire ${countryName || country}`}
               onClick={() => handleRegionSelect('Entire Country')}
@@ -105,7 +111,7 @@ const CountryQuizPage = () => {
                 {regions.map((region) => (
                   <button
                     key={region}
-                    onClick={() => handleRegionSelect(region)} // This will navigate to the region page
+                    onClick={() => handleRegionSelect(region)}
                     className="border border-gray-300 rounded-[0.4rem] flex items-center p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15"
                   >
                     <span className="flex-1 text-center font-medium text-lg">{region}</span>
