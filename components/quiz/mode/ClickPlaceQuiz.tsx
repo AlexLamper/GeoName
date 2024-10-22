@@ -18,6 +18,7 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
   const [score, setScore] = useState<number>(0);
   const [message, setMessage] = useState<string>('');
   const [messageCorrect, setCorrectMessage] = useState<string>('');
+  const [showMessage, setShowMessage] = useState<boolean>(false); // New state for message visibility
   const [quizPlaces, setQuizPlaces] = useState<Place[]>([]);
 
   useEffect(() => {
@@ -43,27 +44,42 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
   const handleMarkerClick = (placeId: number) => {
     if (currentPlace && placeId === currentPlace.id) {
       setScore(score + 1);
-      setCorrectMessage('');
+      setCorrectMessage('correct');
+      setShowMessage(true); // Show message
       setTimeout(() => {
-        setCorrectMessage('correct');
-      }, 50);
-      generateNewPlaces();
+        setShowMessage(false); // Hide after 1 second
+        generateNewPlaces();
+      }, 1000); // 1 second delay for showing message
     } else {
-      setCorrectMessage('');
+      setCorrectMessage('incorrect');
+      setShowMessage(true); // Show message
       setTimeout(() => {
-        setCorrectMessage('incorrect');
-      }, 50);
+        setShowMessage(false); // Hide after 1 second
+      }, 1000); // 1 second delay for showing message
     }
   };
 
   return (
     <div>
-      {/* Css for the fadeIn animation */}
+      {/* CSS for the fadeIn and fadeOut animations */}
       <style>
         {`
           @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
+          }
+
+          @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+          }
+
+          .fade-in {
+            animation: fadeIn 0.7s forwards;
+          }
+
+          .fade-out {
+            animation: fadeOut 0.7s forwards;
           }
         `}
       </style>
@@ -82,12 +98,11 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
       </div>
 
       {/* Correct Message */}
-      {messageCorrect === 'correct' && (
+      {messageCorrect === 'correct' && showMessage && (
         <h3
-          className="flex items-center text-lg mb-4 text-green-700 bg-green-100 border border-green-500 border-opacity-20 rounded-[0.4rem] p-3 shadow-md font-bold lg:max-w-[40%] max-w-[90%] mt-2"
-          style={{
-            animation: 'fadeIn 0.7s'
-          }}
+          className={`flex items-center text-lg mb-4 text-green-700 bg-green-100 border border-green-500 border-opacity-20 rounded-[0.4rem] p-3 shadow-md font-bold lg:max-w-[40%] max-w-[90%] mt-2 ${
+            showMessage ? 'fade-in' : 'fade-out'
+          }`}
         >
           <IoIosCheckmarkCircle className="mr-2" />
           Correct!
@@ -95,13 +110,12 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
       )}
 
       {/* Incorrect Message */}
-      {messageCorrect === 'incorrect' && (
+      {messageCorrect === 'incorrect' && showMessage && (
         <h3
-          className="flex items-center text-lg mb-4 text-red-700 bg-red-100 border border-red-500 border-opacity-20 rounded-[0.4rem] p-3 shadow-md font-bold lg:max-w-[40%] max-w-[90%] mt-2"
-          style={{
-            animation: 'fadeIn 0.7s'
-          }}
-          >
+          className={`flex items-center text-lg mb-4 text-red-700 bg-red-100 border border-red-500 border-opacity-20 rounded-[0.4rem] p-3 shadow-md font-bold lg:max-w-[40%] max-w-[90%] mt-2 ${
+            showMessage ? 'fade-in' : 'fade-out'
+          }`}
+        >
           <HiXCircle className="mr-2" />
           Try Again!
         </h3>
