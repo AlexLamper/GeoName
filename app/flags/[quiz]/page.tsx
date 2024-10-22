@@ -1,23 +1,26 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Sidebar from '@/components/common/Sidebar';
 import Space from "@/components/common/Space";
 import BackButton from '@/components/buttons/BackButton';
 
-const FlagsPage = () => {
+const QuizPage = () => {
   const router = useRouter();
+  const { quiz } = useParams<{ quiz: string }>(); // Get the selected quiz category from the URL
 
-  const handleQuizSelection = (quiz: string) => {
-    // Redirect to the QuizPage with the selected quiz type
-    router.push(`/flags/${quiz}`);
-  };
-
-  const quizCategories = [
-    { label: 'All Flags', value: 'all' },
-    { label: 'European Flags', value: 'europe' },
-    // Add more categories here as needed
+  const quizTypes = [
+    { label: 'Four Flags', value: 'four-flags' },
+    { label: 'Four Names', value: 'four-names' },
+    { label: 'Six Flags', value: 'six-flags' },
+    { label: 'Six Names', value: 'six-names' },
   ];
+
+  const handleQuizTypeSelection = (quizType: string) => {
+    // Redirect to the quiz page with the selected quiz type
+    router.push(`/flags/${quiz}/${quizType}`);
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -25,18 +28,16 @@ const FlagsPage = () => {
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
         <BackButton />
         <Space height='15px' />
-        <h1 className="text-4xl font-bold mb-2">Choose Your Flag Category</h1>
-        <p className="opacity-80 mb-8">
-          On this page, you can choose a flag category to start your quiz!
-        </p>
+        <h1 className="text-4xl font-bold mb-2">Choose Your Quiz Type</h1>
+        <p className="opacity-80 mb-8">Select a quiz type to get started!</p>
 
-        {/* Quiz Category Cards */}
+        {/* Quiz Type Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
-          {quizCategories.map((quiz) => (
+          {quizTypes.map((quiz) => (
             <div
               key={quiz.value}
               className="p-4 border rounded-lg hover:shadow-lg cursor-pointer transition duration-200"
-              onClick={() => handleQuizSelection(quiz.value)}
+              onClick={() => handleQuizTypeSelection(quiz.value)}
             >
               <h2 className="text-xl font-semibold">{quiz.label}</h2>
               <p className="opacity-70">Start a quiz on {quiz.label.toLowerCase()}!</p>
@@ -48,4 +49,4 @@ const FlagsPage = () => {
   );
 };
 
-export default FlagsPage;
+export default QuizPage;

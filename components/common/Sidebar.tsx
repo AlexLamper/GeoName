@@ -28,7 +28,7 @@ const Sidebar = () => {
               Places
             </Link>
           </li>
-          <li className={`mb-4 flex items-center cursor-pointer ${pathname === '/flags' ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
+          <li className={`mb-4 flex items-center cursor-pointer ${pathname.startsWith('/flags') ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
             <Link href="/flags" className="flex items-center w-full px-4 py-2 rounded font-medium hover:bg-opacity-10 transition-colors duration-200">
               <FaFlag size={20} className="mr-2" />
               Flags
