@@ -267,15 +267,15 @@ const FourFlags: React.FC = () => {
   return (
     <div className="flex ">
       {/* Grid for displaying flags */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-6">
         {flags.map((flag) => (
           <Image
             key={flag}
             src={flag}
             alt="Flag"
-            width={128}
-            height={96}
-            className="w-32 h-24 object-cover"
+            width={256}
+            height={192}
+            className="w-64 h-48 object-cover rounded-[0.2rem] hover:cursor-pointer border"
           />
         ))}
       </div>
