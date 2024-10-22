@@ -25,9 +25,9 @@ const FlagsPage = () => {
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
         <BackButton />
         <Space height='15px' />
-        <h1 className="text-4xl font-bold mb-2">Choose Your Flag Category</h1>
+        <h1 className="text-4xl font-bold mb-2">Choose the <span style={{ color: '#1A5319' }}>Quiz</span></h1>
         <p className="opacity-80 mb-8">
-          On this page, you can choose a flag category to start your quiz!
+          On this page, you can choose a quiz you would like to play!
         </p>
 
         {/* Quiz Category Cards */}

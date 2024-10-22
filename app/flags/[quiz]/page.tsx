@@ -28,7 +28,7 @@ const QuizPage = () => {
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
         <BackButton />
         <Space height='15px' />
-        <h1 className="text-4xl font-bold mb-2">Choose Your Quiz Type</h1>
+        <h1 className="text-4xl font-bold mb-2">Choose Your <span style={{ color: '#1A5319' }}>Quiz Type</span></h1>
         <p className="opacity-80 mb-8">Select a quiz type to get started!</p>
 
         {/* Quiz Type Cards */}
