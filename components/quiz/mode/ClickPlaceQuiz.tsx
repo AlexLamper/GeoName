@@ -73,7 +73,7 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
           {/* Display the message with styled place name */}
           {message.split(' ').map((word, index) =>
             word === currentPlace?.name ? (
-              <span key={index} style={{ color: '#1A5319' }}>{word}</span>
+              <span key={index} style={{ color: '#1A5319', textDecoration: 'underline' }}>{word}</span>
             ) : (
               <span key={index}>{word} </span>
             )
