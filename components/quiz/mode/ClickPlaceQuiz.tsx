@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import QuizMap from '@/components/quiz/QuizMap';
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { HiXCircle } from "react-icons/hi";
 
 type Place = {
   id: number;
@@ -82,24 +84,26 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
       {/* Correct Message */}
       {messageCorrect === 'correct' && (
         <h3
-          className="text-lg mb-4 text-green-700 bg-green-100 border border-green-500 border-opacity-20 rounded-[0.4rem] p-3 shadow-md font-bold lg:max-w-[40%] max-w-[90%]"
+          className="flex items-center text-lg mb-4 text-green-700 bg-green-100 border border-green-500 border-opacity-20 rounded-[0.4rem] p-3 shadow-md font-bold lg:max-w-[40%] max-w-[90%] mt-2"
           style={{
             animation: 'fadeIn 0.7s'
           }}
         >
-          ✅ Correct!
+          <IoIosCheckmarkCircle className="mr-2" />
+          Correct!
         </h3>
       )}
 
       {/* Incorrect Message */}
       {messageCorrect === 'incorrect' && (
         <h3
-          className="text-lg mb-4 text-red-700 bg-red-100 border border-red-500 border-opacity-20 rounded-[0.4rem] p-3 shadow-md font-bold lg:max-w-[40%] max-w-[90%]"
+          className="flex items-center text-lg mb-4 text-red-700 bg-red-100 border border-red-500 border-opacity-20 rounded-[0.4rem] p-3 shadow-md font-bold lg:max-w-[40%] max-w-[90%] mt-2"
           style={{
             animation: 'fadeIn 0.7s'
           }}
-        >
-          ❌ Try Again!
+          >
+          <HiXCircle className="mr-2" />
+          Try Again!
         </h3>
       )}
 

@@ -7,6 +7,7 @@ import GreenButton from '@/components/buttons/GreenButton';
 import { fetchCountries } from '@/utils/overpass-api';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; // Ensure this import path is correct
 
 const RegionQuizPage = () => {
     const { country, region } = useParams();
@@ -46,13 +47,12 @@ const RegionQuizPage = () => {
                 const foundCountry = countries.find((c) => c.iso_code === country);
                 setCountryName(foundCountry ? foundCountry.name : null);
             }
+            setLoading(false); // Ensure loading is set to false after fetching country name
         };
 
         fetchCountryName();
-        setLoading(false);
     }, [country]);
 
-    if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
     if (!country || !region) return <div className="flex justify-center items-center h-screen">No country or region selected.</div>;
 
     // Decode region properly
@@ -64,6 +64,16 @@ const RegionQuizPage = () => {
             <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
                 <QuizBreadcrumbs />
                 <Space height="20px" />
+
+                {/* Loading Alert */}
+                {loading && (
+                    <Alert>
+                        <AlertTitle><span className='font-semibold text-lg'>Heads up!</span></AlertTitle>
+                        <AlertDescription>
+                            Please note that loading may take a few seconds sometimes.
+                        </AlertDescription>
+                    </Alert>
+                )}
 
                 <h1 className="text-4xl font-bold mb-2">
                     Quiz for <span style={{ color: '#1A5319' }}>{countryName || country} - {decodedRegion}</span>
