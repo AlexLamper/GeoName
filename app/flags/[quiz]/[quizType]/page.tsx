@@ -7,6 +7,7 @@ import Space from '@/components/common/Space';
 import BackButton from '@/components/buttons/BackButton';
 import FourFlags from '@/components/flags/mode/FourFlags';
 import FourNames from '@/components/flags/mode/FourNames';
+import SixFlags from '@/components/flags/mode/SixFlags';
 
 type CountryFlag = {
   name: string;
@@ -34,10 +35,10 @@ const QuizTypePage = () => {
         setQuizComponent(() => FourNames);
         break;
       case 'six-flags':
-        setQuizComponent(() => FourFlags); // Placeholder for six flags
+        setQuizComponent(() => SixFlags);
         break;
       case 'six-names':
-        setQuizComponent(() => FourNames); // Placeholder for six names
+        setQuizComponent(() => FourNames);
         break;
       default:
         console.error("Invalid quiz type.");
