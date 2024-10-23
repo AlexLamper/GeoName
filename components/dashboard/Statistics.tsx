@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaTrophy } from 'react-icons/fa';
 import { Card } from "@/components/cards/Card";
+import { MdLeaderboard } from "react-icons/md";
 
 // Define LeaderboardEntry type
 type LeaderboardEntry = {
@@ -73,7 +74,7 @@ const Statistics: React.FC<StatisticsProps> = ({ onUpdateScore }) => {
       id: 2,
       header: 'Leaderboard Placement:',
       statistic: leaderboardPlacement !== null ? `#${leaderboardPlacement}` : 'Loading...',
-      icon: <FaTrophy size={30} />,
+      icon: <MdLeaderboard size={30} />,
       href: '/leaderboard',
     },
   ];
