@@ -4,11 +4,11 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Sidebar from '@/components/common/Sidebar';
 import Space from '@/components/common/Space';
-import BackButton from '@/components/buttons/BackButton';
 import FourFlags from '@/components/flags/mode/FourFlags';
 import FourNames from '@/components/flags/mode/FourNames';
 import SixFlags from '@/components/flags/mode/SixFlags';
 import SixNames from '@/components/flags/mode/SixNames';
+import FlagBreadcrumbs from '@/components/flags/FlagBreadCrumbs';
 
 type CountryFlag = {
   name: string;
@@ -51,8 +51,9 @@ const QuizTypePage = () => {
     <div className="flex min-h-screen">
       <Sidebar />
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
-        <BackButton />
-        <Space height="15px" />
+        <FlagBreadcrumbs />
+        <Space height="20px" />
+        
         <div className="flex flex-col items-center justify-center text-center">
           <h1 className="text-4xl font-bold mb-2">
             {quizType === 'four-flags' || quizType === 'six-flags' ? (

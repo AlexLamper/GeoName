@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import Sidebar from '@/components/common/Sidebar';
 import Space from "@/components/common/Space";
-import BackButton from '@/components/buttons/BackButton';
+import FlagBreadcrumbs from '@/components/flags/FlagBreadCrumbs';
 
 const QuizPage = () => {
   const router = useRouter();
@@ -26,8 +26,9 @@ const QuizPage = () => {
     <div className="flex min-h-screen">
       <Sidebar />
       <main className="flex-1 p-6 lg:max-w-[80%] max-w-full">
-        <BackButton />
-        <Space height='15px' />
+        <FlagBreadcrumbs />
+        <Space height="20px" />
+
         <h1 className="text-4xl font-bold mb-2">Choose Your <span style={{ color: '#1A5319' }}>Quiz Type</span></h1>
         <p className="opacity-80 mb-8">Select a quiz type to get started!</p>
 
