@@ -8,6 +8,7 @@ import BackButton from '@/components/buttons/BackButton';
 import FourFlags from '@/components/flags/mode/FourFlags';
 import FourNames from '@/components/flags/mode/FourNames';
 import SixFlags from '@/components/flags/mode/SixFlags';
+import SixNames from '@/components/flags/mode/SixNames';
 
 type CountryFlag = {
   name: string;
@@ -38,7 +39,7 @@ const QuizTypePage = () => {
         setQuizComponent(() => SixFlags);
         break;
       case 'six-names':
-        setQuizComponent(() => FourNames);
+        setQuizComponent(() => SixNames);
         break;
       default:
         console.error("Invalid quiz type.");
@@ -53,12 +54,19 @@ const QuizTypePage = () => {
         <BackButton />
         <Space height="15px" />
         <div className="flex flex-col items-center justify-center text-center">
-          {/* Display the correct country name dynamically */}
           <h1 className="text-4xl font-bold mb-2">
-            {correctCountry ? (
-              <>Select the flag of <span style={{ color: '#1A5319' }}>{correctCountry.name}</span></>
+            {quizType === 'four-flags' || quizType === 'six-flags' ? (
+              correctCountry ? (
+                <>Select the flag of <span style={{ color: '#1A5319' }}>{correctCountry.name}</span></>
+              ) : (
+                'Guess the flag of:'
+              )
             ) : (
-              'Guess the flag of:'
+              correctCountry ? (
+                'Select the name of the flag:'
+              ) : (
+                'Guess the name of the flag:'
+              )
             )}
           </h1>
           <p className="opacity-80 mb-8">
