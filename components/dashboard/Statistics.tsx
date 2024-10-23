@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { FaTrophy, 
-  // FaPlayCircle, FaCheckCircle 
-} from 'react-icons/fa';
+import { FaTrophy } from 'react-icons/fa';
 import { Card } from "@/components/cards/Card";
 
+// Define LeaderboardEntry type
 type LeaderboardEntry = {
   id: string;
   name: string;
@@ -12,46 +11,55 @@ type LeaderboardEntry = {
   leaderboardPlacement?: number;
 };
 
-const Statistics = () => {
+interface StatisticsProps {
+  onUpdateScore: () => void; // Prop for score update
+}
+
+const Statistics: React.FC<StatisticsProps> = ({ onUpdateScore }) => {
   const [userScore, setUserScore] = useState<number | null>(null);
   const [leaderboardPlacement, setLeaderboardPlacement] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUserStats = async () => {
-      try {
-        // Fetch user's score
-        const scoreResponse = await fetch('/api/user/score');
-        const scoreResult = await scoreResponse.json();
+  const fetchUserStats = async () => {
+    try {
+      const scoreResponse = await fetch('/api/user/score');
+      const scoreResult = await scoreResponse.json();
 
-        if (scoreResponse.ok) {
-          setUserScore(scoreResult.score);
-
-          // Fetch all users to find current user and leaderboard placement
-          const userResponse = await fetch('/api/user');
-          const userResult: LeaderboardEntry[] = await userResponse.json();
-
-          if (userResponse.ok) {
-            // Ensure scoreResult.id exists in userResult
-            const currentUser = userResult.find(user => user.id === scoreResult.id);
-            setLeaderboardPlacement(currentUser?.leaderboardPlacement || null);
-          } else {
-            // Fetch error handling
-            const userErrorResult = await userResponse.json(); // Parse error response
-            setError(userErrorResult.error || "Failed to fetch user data");
-          }
-        } else {
-          // Score error handling
-          setError(scoreResult.error || "Failed to fetch score");
-        }
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setError("Error fetching user statistics");
+      // Check if the score response is okay
+      if (!scoreResponse.ok) {
+        // If it's not OK, throw an error with the response message
+        throw new Error(scoreResult.error || "Failed to fetch score");
       }
-    };
 
+      setUserScore(scoreResult.score);
+
+      const userResponse = await fetch('/api/user');
+      const userResult: LeaderboardEntry[] = await userResponse.json();
+
+      // Check if the user response is okay
+      if (!userResponse.ok) {
+        // If it's not OK, throw an error with the response message
+        throw new Error("Failed to fetch user data");
+      }
+
+      const currentUser = userResult.find(user => user.id === scoreResult.id);
+      setLeaderboardPlacement(currentUser?.leaderboardPlacement || null);
+      onUpdateScore(); // Notify parent about the score update
+
+    } catch (err) { // Capture errors
+      if (err instanceof Error) {
+        console.error("Fetch error:", err.message);
+        setError(err.message || "Error fetching user statistics");
+      } else {
+        console.error("Unexpected error:", err);
+        setError("Unexpected error occurred.");
+      }
+    }
+  };
+
+  useEffect(() => {
     fetchUserStats();
-  }, []);
+  }, []); // Fetch stats on mount
 
   const cardData = [
     {
@@ -68,20 +76,6 @@ const Statistics = () => {
       icon: <FaTrophy size={30} />,
       href: '/leaderboard',
     },
-    // {
-    //   id: 3,
-    //   header: 'Quizzes Completed:',
-    //   statistic: '',
-    //   icon: <FaCheckCircle size={30} />,
-    //   href: '#',
-    // },
-    // {
-    //   id: 4,
-    //   header: 'Quizzes Played:',
-    //   statistic: '',
-    //   icon: <FaPlayCircle size={30} />,
-    //   href: '#',
-    // },
   ];
 
   return (
@@ -90,7 +84,7 @@ const Statistics = () => {
         Your <span style={{ color: '#1A5319' }}>Statistics</span>
       </h1>
       
-      {error && <div className="text-red-500 mb-4">{error}</div>} {/* Display error message if any */}
+      {error && <div className="text-red-500 mb-4">{error}</div>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {cardData.map((card) => (

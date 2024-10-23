@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import QuickAccess from '../common/QuickAccess';
 import Statistics from './Statistics';
@@ -8,16 +8,22 @@ import Leaderboard from '../Leaderboard';
 
 const Main = () => {
   const { user } = useUser();
+  const [refreshKey, setRefreshKey] = useState(0); // State to trigger refresh for Leaderboard
 
   const links = [
-    { title: 'Quizzes', href: '/quizzes' },
-    { title: 'About', href: '/about' },
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Help', href: '/help' },
+    { title: 'Places', href: '/quizzes' },
+    { title: 'Flags', href: '/flags' },
+    { title: 'Leaderboard', href: '/leaderboard' },
+    { title: 'Profile', href: '/profile' },
   ];
 
+  // Function to update score and refresh leaderboard
+  const handleUpdateScore = () => {
+    setRefreshKey(prevKey => prevKey + 1); // Increment key to trigger re-render of Leaderboard
+  };
+
   return (
-    <div className="flex-1 p-6 flex flex-col min-h-screen overflow-hidden"> 
+    <div className="flex-1 p-6 flex flex-col min-h-screen overflow-hidden">
       <div className="container mx-auto flex-grow">
         <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
         <p className="opacity-80 mb-8">
@@ -25,11 +31,17 @@ const Main = () => {
         </p>
         <QuickAccess links={links} />
         <Space height="40px" />
-        <Statistics />
+        
+        {/* Pass handleUpdateScore to Statistics component */}
+        <Statistics onUpdateScore={handleUpdateScore} />
+        
         <Space height="40px" />
         <Popular />
         <Space height="40px" />
-        <Leaderboard />
+        
+        {/* Use key to refresh Leaderboard when score updates */}
+        <Leaderboard key={refreshKey} />
+        
         <Space height="40px" />
       </div>
     </div>

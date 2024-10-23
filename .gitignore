@@ -41,6 +41,7 @@ next-env.d.ts
 /docs/brb.txt
 /docs/todo.txt
 /docs/ideas.txt
+/docs/quick-break.txt
 
 #map config file
 /src/config.js

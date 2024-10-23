@@ -5,18 +5,11 @@ import {
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
+import { LeaderboardEntry } from '@/lib/types'; // Assuming LeaderboardEntry is defined here
 
-type LeaderboardEntry = {
-  id: string;
-  name: string;
-  score: number;
-  createdAt: Date;
-};
-
-// Define the columns for the DataTable
 const columns: ColumnDef<LeaderboardEntry>[] = [
   {
-    accessorKey: "rank",
+    accessorKey: "leaderboardPlacement", // Changed from 'rank' to 'leaderboardPlacement'
     header: "Rank",
   },
   {
@@ -38,41 +31,38 @@ const Leaderboard = () => {
   const [data, setData] = useState<LeaderboardEntry[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/user'); // Updated endpoint to fetch all users
-        const result = await response.json();
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/user');
+      const result = await response.json();
 
-        console.log("API Response:", result);
+      if (response.ok) {
+        if (Array.isArray(result)) {
+          // Assuming result is an array of LeaderboardEntry
+          const rankedData = result
+            .sort((a, b) => b.score - a.score)
+            .map((user, index) => ({
+              ...user,
+              leaderboardPlacement: index + 1,
+            }));
 
-        if (response.ok) {
-          if (Array.isArray(result)) {
-            // Sort users by score in descending order and assign ranks
-            const rankedData = result
-              .sort((a, b) => b.score - a.score) // Sort by score descending
-              .map((user, index) => ({
-                ...user,
-                rank: index + 1, // Assign rank based on index
-              }));
-
-            setData(rankedData);
-          } else {
-            setError("Unexpected response format");
-          }
+          setData(rankedData);
         } else {
-          setError(result.error || "Failed to fetch users");
+          setError("Unexpected response format");
         }
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setError("Error fetching users");
+      } else {
+        setError(result.error || "Failed to fetch users");
       }
-    };
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError("Error fetching users");
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
-  // Initialize the table
   const table = useReactTable({
     data,
     columns,
@@ -83,7 +73,6 @@ const Leaderboard = () => {
     <div className="py-4">
       <h1 className="text-2xl font-bold mb-4">Leaderboard</h1>
       {error && <div className="text-red-500">{error}</div>}
-      {/* Render the table */}
       <table className="min-w-full border border-gray-300 rounded-lg shadow">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (

@@ -1,5 +1,3 @@
-// /app/api/user/route.ts
-
 import { NextResponse } from 'next/server';
 import { clerkClient } from '@clerk/nextjs/server';
 
@@ -35,18 +33,9 @@ export async function GET() {
       leaderboardPlacement: index + 1, // Assign rank based on index
     }));
 
-    // Update each user's public metadata with their leaderboard placement
-    await Promise.all(userData.map(user => {
-      return clerkClient.users.updateUserMetadata(user.id, {
-        publicMetadata: {
-          leaderboardPlacement: user.leaderboardPlacement,
-        },
-      });
-    }));
-
-    return NextResponse.json(userData);
+    return NextResponse.json(userData); // Return the user data
   } catch (error) {
-    console.error("Error fetching users:", error);
-    return NextResponse.json({ error: "Error fetching users" }, { status: 500 });
+    console.error("Failed to fetch users:", error);
+    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
   }
 }
