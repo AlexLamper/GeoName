@@ -52,7 +52,7 @@ const SixFlags: React.FC<SixFlagsProps> = ({ onCorrectCountryChange }) => {
   return (
     <div className="flex flex-col items-center">
       {/* Grid for displaying flags */}
-      <div className="grid grid-cols-3 gap-6"> {/* Adjusting to 3 columns for 6 flags */}
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-6">
         {flags.map((flag) => (
           <Image
             key={flag.flag}

@@ -52,7 +52,7 @@ const FourFlags: React.FC<FourFlagsProps> = ({ onCorrectCountryChange }) => {
   return (
     <div className="flex flex-col items-center">
       {/* Grid for displaying flags */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-6 sm:grid-cols-1 grid-cols-1">
         {flags.map((flag) => (
           <Image
             key={flag.flag}
