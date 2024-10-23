@@ -55,34 +55,34 @@ const SixNames: React.FC<SixNamesProps> = ({ onCorrectCountryChange }) => {
 
   return (
     <div className="flex flex-col items-center">
-      {/* Display the flag */}
-      {flag && (
+        {/* Display the flag */}
+        {flag && (
         <Image
-          src={flag.flag}
-          alt={`Flag of ${flag.name}`}
-          width={512} // Larger size for better visibility
-          height={384}
-          className="mb-4 object-cover rounded-[0.2rem] border"
+            src={flag.flag}
+            alt={`Flag of ${flag.name}`}
+            width={512} // Larger size for better visibility
+            height={384}
+            className="mb-4 object-cover rounded-[0.2rem] border"
         />
-      )}
+        )}
 
-      {/* Display name options */}
-      <div className="grid grid-cols-3 gap-4 mt-6">
-        {nameOptions.map((option) => (
-          <button
-            key={option.name}
-            className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded border border-gray-300"
-            onClick={() => handleNameClick(option)} // Handle click on each name option
-          >
-            {option.name}
-          </button>
-        ))}
-      </div>
+        {/* Display name options */}
+        <div className="grid grid-cols-3 gap-4 mt-6 mb-8 border border-transparent">
+            {nameOptions.map((option) => (
+                <button
+                    key={option.name}
+                    className="border border-gray-300 rounded-[0.4rem] flex items-center justify-center p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15 transition duration-200"
+                    onClick={() => handleNameClick(option)}
+                >
+                    <span className="text-lg">{option.name}</span>
+                </button>
+            ))}
+        </div>
 
-      {/* Display the score */}
-      <div className="mt-4">
-        <p className="text-lg">Score: {score}</p>
-      </div>
+        {/* Display the score */}
+        <div className="mt-4">
+            <p className="text-lg">Score: {score}</p>
+        </div>
     </div>
   );
 };

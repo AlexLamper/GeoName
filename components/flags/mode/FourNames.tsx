@@ -67,21 +67,25 @@ const FourNames: React.FC<FourNamesProps> = ({ onCorrectCountryChange }) => {
       )}
 
       {/* Display name options */}
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="grid grid-cols-2 gap-4 mt-6 mb-8 border border-transparent">
         {nameOptions.map((option) => (
           <button
             key={option.name}
-            className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded border border-gray-300"
-            onClick={() => handleNameClick(option)} // Handle click on each name option
+            className="border border-gray-300 rounded-[0.4rem] flex items-center justify-center p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15 transition duration-200"
+            onClick={() => handleNameClick(option)}
           >
-            {option.name}
+            <span className="text-lg">{option.name}</span>
           </button>
         ))}
       </div>
 
       {/* Display the score */}
       <div className="mt-4">
-        <p className="text-lg">Score: {score}</p>
+        <p className="text-lg">Score: 
+        <span style={{ color: '#1A5319' }}>
+          {score}
+        </span>
+        </p>
       </div>
     </div>
   );

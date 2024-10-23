@@ -33,15 +33,15 @@ const QuizPage = () => {
         <p className="opacity-80 mb-8">Select a quiz type to get started!</p>
 
         {/* Quiz Type Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mt-4 border border-transparent mb-8">
           {quizTypes.map((quiz) => (
             <div
               key={quiz.value}
-              className="p-4 border rounded-lg hover:shadow-lg cursor-pointer transition duration-200"
+              className="border border-gray-300 rounded-[0.4rem] flex flex-col items-center p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15 transition duration-200"
               onClick={() => handleQuizTypeSelection(quiz.value)}
             >
-              <h2 className="text-xl font-semibold">{quiz.label}</h2>
-              <p className="opacity-70">Start a quiz on {quiz.label.toLowerCase()}!</p>
+              <h2 className="text-xl font-semibold text-center">{quiz.label}</h2>
+              <p className="opacity-70 text-center">Start a quiz on {quiz.label.toLowerCase()}!</p>
             </div>
           ))}
         </div>
