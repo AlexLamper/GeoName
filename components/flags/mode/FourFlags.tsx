@@ -76,15 +76,15 @@ const FourFlags: React.FC<FourFlagsProps> = ({ onCorrectCountryChange }) => {
   return (
     <div className="flex flex-col items-center">
       {/* Display flags */}
-      <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-6 sm:grid-cols-1 grid-cols-1">
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 grid-cols-2 gap-6">
         {flags.map((flag) => (
           <Image
             key={flag.flag}
             src={flag.flag}
             alt={`Flag of ${flag.name}`}
-            width={256}
-            height={192}
-            className="w-64 h-48 object-cover rounded-[0.2rem] hover:cursor-pointer border"
+            width={320} // Increased width for lg screens
+            height={240} // Increased height for lg screens
+            className="lg:w-80 lg:h-60 md:w-64 md:h-48 sm:w-48 sm:h-36 xs:w-36 xs:h-28 object-cover rounded-[0.2rem] hover:cursor-pointer border"
             onClick={() => handleFlagClick(flag)} // Handle click on each flag
           />
         ))}

@@ -81,10 +81,7 @@ const FourNames: React.FC<FourNamesProps> = ({ onCorrectCountryChange }) => {
 
       {/* Display the score */}
       <div className="mt-4">
-        <p className="text-lg">Score: 
-        <span style={{ color: '#1A5319' }}>
-          {score}
-        </span>
+        <p className="text-lg">Score:<span style={{ color: '#1A5319' }}> {score}</span>
         </p>
       </div>
     </div>

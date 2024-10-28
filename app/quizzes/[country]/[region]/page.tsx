@@ -34,11 +34,15 @@ const RegionQuizPage = () => {
         }
     };
 
+    // Ensure region is consistently formatted
     const handleStartQuiz = () => {
         if (selectedQuizTypes.length > 0) {
-            router.push(`/quizzes/${country}/${region}/${selectedQuizTypes[0]}`);
+            const regionValue = Array.isArray(region) ? region[0] : region;
+            const encodedRegion = encodeURIComponent(decodeURIComponent(regionValue)).toLowerCase(); // Convert to lowercase
+            router.push(`/quizzes/${country}/${encodedRegion}/${selectedQuizTypes[0]}`);
         }
     };
+
 
     useEffect(() => {
         const fetchCountryName = async () => {
@@ -55,7 +59,7 @@ const RegionQuizPage = () => {
 
     if (!country || !region) return <div className="flex justify-center items-center h-screen">No country or region selected.</div>;
 
-    // Decode region properly
+    // Decode region properly for display
     const decodedRegion = Array.isArray(region) ? decodeURIComponent(region[0]) : decodeURIComponent(region);
 
     return (

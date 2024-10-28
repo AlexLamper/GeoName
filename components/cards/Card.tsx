@@ -16,7 +16,7 @@ const Card: React.FC<CardProps> = ({ className, header, statistic, icon, href, .
       <div
         className={cn(
           "border border-gray-300 rounded-[0.4rem] p-6 h-48 flex flex-col justify-between transition-colors",
-          "bg-transparent dark:bg-[#80AF81] dark:border-none",
+          "bg-transparent dark:bg-[#1e1e1e] dark:border-none dark:hover:shadow-[0_2px_8px_rgba(200,200,200,0.1)]",
           "cursor-pointer hover:shadow-lg",
           className
         )}

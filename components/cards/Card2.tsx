@@ -14,13 +14,13 @@ const Card2: React.FC<Card2Props> = ({ className, header, icon, href, ...props }
       <div
         className={cn(
           "border border-gray-300 rounded-[0.4rem] p-6 h-48 flex flex-col justify-between transition-colors",
-          "bg-transparent dark:bg-[#D6EFD8] dark:border-none",
-          "cursor-pointer hover:shadow-lg",
+          "bg-transparent dark:bg-[#1e1e1e] dark:border-none",
+          "cursor-pointer hover:shadow-lg dark:hover:shadow-[0_2px_8px_rgba(200,200,200,0.1)]",
           className
         )}
         {...props}
       >
-        <h3 className="text-2xl font-semibold mb-3 dark:text-[#161616]">{header}</h3>
+        <h3 className="text-2xl font-semibold mb-3 dark:text-white">{header}</h3>
         <div className="ml-auto">
           <p className="text-[#1A5319] text-3xl font-bold dark:text-[#FCFFFD]">{icon}</p>
         </div>

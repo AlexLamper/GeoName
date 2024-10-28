@@ -132,7 +132,7 @@ export async function fetchPlacesByRegion(
 
   // Get the specific types of places to query based on the user's selection
   const selectedPlaceTypes = placeTypesMap[quizType] || [];
-
+  
   // Log the selected quiz type and corresponding place types
   console.log(`Selected quiz type: ${quizType}`);
   console.log(`Mapped place types for this quiz: ${selectedPlaceTypes.join(', ')}`);

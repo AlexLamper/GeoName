@@ -20,7 +20,7 @@ const Navbar = () => {
 
     const { theme } = useTheme();
 
-    const logoSrc = theme === 'dark' ? '/icons/logo-icon-light.svg' : '/logo/logo.svg';
+    const logoSrc = theme === 'dark' ? '/logo/logo-light-text.png' : '/logo/logo-dark-text.png';
 
     return (
         <nav className="border-b h-20 w-full px-4">
