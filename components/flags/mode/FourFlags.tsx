@@ -20,19 +20,21 @@ const FourFlags: React.FC<FourFlagsProps> = ({ onCorrectCountryChange }) => {
   const [totalFlags] = useState<number>(allFlags.length); // Total number of available flags
   const [guessedFlags, setGuessedFlags] = useState<string[]>([]); // Store guessed flag names
   const [timer, setTimer] = useState<number>(0); // Timer state
+  const [lives, setLives] = useState<number>(3); // Initialize with 3 lives
   const [isQuizFinished, setIsQuizFinished] = useState<boolean>(false); // Flag to track if quiz is finished
 
   useEffect(() => {
-    generateNewFlags();
-    
-    const interval = setInterval(() => {
-      if (!isQuizFinished) {
-        setTimer(prev => prev + 1); // Increment timer every second
-      }
-    }, 1000);
-
-    return () => clearInterval(interval); // Clean up on unmount
-  }, [isQuizFinished]);
+    if (isQuizFinished) {
+      updateScoreOnFinish(score);
+    } else {
+      generateNewFlags(); 
+      const interval = setInterval(() => {
+        setTimer((prev) => prev + 1);
+      }, 1000);
+  
+      return () => clearInterval(interval);
+    }
+  }, [isQuizFinished, score]);  
 
   const generateNewFlags = () => {
     const getRandomFlags = (flagList: CountryFlag[], count: number) => {
@@ -43,33 +45,45 @@ const FourFlags: React.FC<FourFlagsProps> = ({ onCorrectCountryChange }) => {
 
     const selectedFlags = getRandomFlags(allFlags, 4);
 
-    // Ensure no flag is selected more than once in the same round
-    const flagNamesInRound = selectedFlags.map(flag => flag.name);
-    const hasDuplicate = flagNamesInRound.some((flag, index) => flagNamesInRound.indexOf(flag) !== index);
-
-    if (hasDuplicate) {
-      console.error("Duplicate flags detected, check the selection logic!");
-    }
-
-    setFlags(selectedFlags);
-
-    if (selectedFlags.length === 0) {
-      setIsQuizFinished(true); // Finish quiz if no flags left
+    if (selectedFlags.length === 0 || lives === 0) {
+      setIsQuizFinished(true); // Finish quiz if no flags left or no lives left
       alert("Quiz finished! Your score: " + score);
+      updateScoreOnFinish(score); // Update user score at the end of the quiz
     } else {
       const randomCorrectCountry = selectedFlags[Math.floor(Math.random() * selectedFlags.length)];
       setCorrectCountry(randomCorrectCountry);
       onCorrectCountryChange(randomCorrectCountry);
     }
+
+    setFlags(selectedFlags);
   };
 
   const handleFlagClick = (flag: CountryFlag) => {
     if (flag.name === correctCountry?.name) {
-      setScore(prev => prev + 1);
+      setScore(prev => prev + 1); // Increment score for a correct guess
       setGuessedFlags(prev => [...prev, flag.name]); // Add guessed flag to the list
       generateNewFlags(); // Generate new flags when the correct one is clicked
     } else {
-      alert('Wrong flag, try again!');
+      setLives(prev => prev - 1); // Deduct a life for an incorrect guess
+      if (lives - 1 <= 0) {
+        setIsQuizFinished(true);
+        alert("Out of lives! Final score: " + score);
+        updateScoreOnFinish(score); // Update user score if out of lives
+      }
+    }
+  };
+
+  const updateScoreOnFinish = async (finalScore: number) => {
+    try {
+      await fetch('/api/user/score', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ score: finalScore }), // Send the final score directly
+      });
+    } catch (error) {
+      console.error('Error updating score:', error);
     }
   };
 
@@ -90,9 +104,10 @@ const FourFlags: React.FC<FourFlagsProps> = ({ onCorrectCountryChange }) => {
         ))}
       </div>
 
-      {/* Display the score and progress */}
+      {/* Display the score, progress, and lives */}
       <div className="mt-4 mx-auto">
         <p className="text-lg text-center">Score: {score}</p>
+        <p className="text-lg text-center">Lives Left: {"❤️".repeat(lives)}</p>
         <p className="text-lg text-center">Flags Guessed: {guessedFlags.length}/{totalFlags}</p>
         <p className="text-lg text-center">Time Elapsed: {timer}s</p>
       </div>
@@ -104,6 +119,7 @@ const FourFlags: React.FC<FourFlagsProps> = ({ onCorrectCountryChange }) => {
             setScore(0);
             setGuessedFlags([]);
             setTimer(0);
+            setLives(3); // Reset lives
             setIsQuizFinished(false);
             generateNewFlags();
           }}

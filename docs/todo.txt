@@ -3,3 +3,4 @@ TODO
 - Give the user points when completed quiz with the amount of points they got, or how any flags they guessed correctly.
 - Update the flag quizzes to make them more interesting and better. 
 - Research how to make the quizzes as effective as possible/update the game modes.
+- Add Stripe implementation to the application so users can buy premium etc... and the application is actually profitable.

@@ -17,7 +17,7 @@ export async function GET() {
   try {
     const user = await clerkClient.users.getUser(userId);
     const score = (user.publicMetadata as UserPublicMetadata).score || 0;
-    return NextResponse.json({ id: user.id, score }); // Include the user ID for matching purposes
+    return NextResponse.json({ id: user.id, score });
   } catch (error) {
     console.error("Error fetching score:", error);
     return NextResponse.json({ error: "Error fetching score" }, { status: 500 });
@@ -25,7 +25,7 @@ export async function GET() {
 }
 
 // POST endpoint to update the current user's score
-export async function POST() {
+export async function POST(request: Request) {
   const { userId } = auth();
 
   if (!userId) {
@@ -33,9 +33,15 @@ export async function POST() {
   }
 
   try {
+    const { score: additionalScore } = await request.json();
+
+    if (typeof additionalScore !== 'number') {
+      return NextResponse.json({ error: "Invalid score value" }, { status: 400 });
+    }
+
     const currentUser = await clerkClient.users.getUser(userId);
     const currentScore = (currentUser.publicMetadata as UserPublicMetadata).score || 0;
-    const newScore = currentScore + 1; // Increment by 1
+    const newScore = currentScore + additionalScore; // Add the received score
 
     await clerkClient.users.updateUserMetadata(userId, {
       publicMetadata: {
