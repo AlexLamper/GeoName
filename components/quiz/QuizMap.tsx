@@ -134,26 +134,28 @@ const QuizMap: React.FC<SimpleMapProps> = ({ center, zoom, places, onMarkerClick
           <option value="jawg-lagoon">Jawg Lagoon</option>
         </select>
       </div>
-      <MapContainer
-        center={safeCenter}
-        zoom={safeZoom}
-        style={{ height: '600px', width: '100%', borderRadius: '0.5rem', overflow: 'hidden' }}
-        className="shadow-lg"
-      >
-        {getTileLayer()}
-        {validPlaces.map((place) => (
-          <Marker
-            key={place.id}
-            position={place.position}
-            icon={RedDotIcon}
-            eventHandlers={{
-              click: () => onMarkerClick && onMarkerClick(place.id),
-            }}
-          >
-            {/* <Popup>{place.name}</Popup> */}
-          </Marker>
-        ))}
-      </MapContainer>
+      <div className="relative z-50"> {/* Adjusts stacking context */}
+        <MapContainer
+          center={safeCenter}
+          zoom={safeZoom}
+          style={{ height: '600px', width: '100%', borderRadius: '0.5rem', overflow: 'hidden' }}
+          className="shadow-lg"
+        >
+          {getTileLayer()}
+          {validPlaces.map((place) => (
+            <Marker
+              key={place.id}
+              position={place.position}
+              icon={RedDotIcon}
+              eventHandlers={{
+                click: () => onMarkerClick && onMarkerClick(place.id),
+              }}
+            >
+              {/* <Popup>{place.name}</Popup> */}
+            </Marker>
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 };

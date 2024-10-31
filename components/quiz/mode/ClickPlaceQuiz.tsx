@@ -78,7 +78,7 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
       {/* Popup Message */}
       {showMessage && (
         <div
-          className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-50 ${
+          className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-[101] ${
             showMessage ? 'fade-in' : 'fade-out'
           }`}
         >
