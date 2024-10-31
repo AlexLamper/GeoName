@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Sidebar from '@/components/common/Sidebar';
 import GreenButton from '@/components/buttons/GreenButton';
 import { fetchCountries, fetchRegionsByCountry } from '@/utils/overpass-api';
-import { FaArrowRight } from 'react-icons/fa';
+// import { FaArrowRight } from 'react-icons/fa';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
 import { useRouter } from 'next/navigation';
@@ -14,15 +14,14 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 const CountryQuizPage = () => {
   const { country } = useParams();
   const router = useRouter(); 
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
-  const [regions, setRegions] = useState<string[]>([]);
+  const [selectedRegionId, setSelectedRegionId] = useState<number | null>(null);
+  const [regions, setRegions] = useState<{ id: number; name: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [countryName, setCountryName] = useState<string | null>(null);
 
-  const handleRegionSelect = (region: string) => {
-    setSelectedRegion(region);
-    const encodedRegion = encodeURIComponent(region); // Ensure special characters are encoded
-    router.push(`/quizzes/${country}/${encodedRegion}`);
+  const handleRegionSelect = (regionId: number) => {
+    setSelectedRegionId(regionId);
+    router.push(`/quizzes/${country}/${regionId}`);
   };
 
   useEffect(() => {
@@ -33,9 +32,12 @@ const CountryQuizPage = () => {
         try {
           const regionData = await fetchRegionsByCountry(country);
           if (regionData) {
-            const regionNames = regionData.map((region) => region.tags.name);
-            setRegions(regionNames);
-            console.log("Fetched regions:", regionNames);
+            const regionList = regionData.map((region) => ({
+              id: region.id,
+              name: region.tags.name,
+            }));
+            setRegions(regionList);
+            console.log("Fetched regions:", regionList);
           } else {
             console.log("No regions data received.");
           }
@@ -97,11 +99,11 @@ const CountryQuizPage = () => {
           Select a region or play a quiz for the entire {countryName || country}.
         </p>
 
-        {!selectedRegion ? (
+        {!selectedRegionId ? (
           <div>
             <GreenButton
               title={`Play Entire ${countryName || country}`}
-              onClick={() => handleRegionSelect('Entire Country')}
+              onClick={() => handleRegionSelect(0)}
               width="w-full max-w-[18rem]"
               height="h-[2.8rem] p-4"
               fontSize="text-[1.2rem]"
@@ -113,25 +115,19 @@ const CountryQuizPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {regions.map((region) => (
                   <button
-                    key={region}
-                    onClick={() => handleRegionSelect(region)}
-                    className="border border-gray-300 rounded-[0.4rem] flex items-center p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15"
+                    key={region.id}
+                    onClick={() => handleRegionSelect(region.id)}
+                    className="border border-gray-300 rounded-lg px-4 py-2 hover:bg-green-600 hover:text-white transition"
                   >
-                    <span className="flex-1 text-center font-medium text-lg">{region}</span>
-                    <span className="text-[#508D4E]">
-                      <FaArrowRight size={20} color="#508D4E" />
-                    </span>
+                    {region.name}
                   </button>
                 ))}
               </div>
             ) : (
-              <div className="opacity-80">No regions available for this country.</div>
+              <p className="text-center text-lg text-gray-600">No regions available.</p>
             )}
           </div>
-        ) : (
-          <div className="flex items-center justify-center h-screen opacity-80">
-          </div>
-        )}
+        ) : null}
       </main>
     </div>
   );

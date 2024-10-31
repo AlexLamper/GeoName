@@ -10,7 +10,7 @@ import Space from '@/components/common/Space';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; // Ensure this import path is correct
 
 const RegionQuizPage = () => {
-    const { country, region } = useParams();
+    const { country, regionId } = useParams(); // Use regionId from params
     const router = useRouter();
     const [selectedQuizTypes, setSelectedQuizTypes] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -34,15 +34,12 @@ const RegionQuizPage = () => {
         }
     };
 
-    // Ensure region is consistently formatted
     const handleStartQuiz = () => {
         if (selectedQuizTypes.length > 0) {
-            const regionValue = Array.isArray(region) ? region[0] : region;
-            const encodedRegion = encodeURIComponent(decodeURIComponent(regionValue)).toLowerCase(); // Convert to lowercase
-            router.push(`/quizzes/${country}/${encodedRegion}/${selectedQuizTypes[0]}`);
+            const encodedRegionId = encodeURIComponent(Array.isArray(regionId) ? regionId.join('') : regionId); // Encode regionId
+            router.push(`/quizzes/${country}/${encodedRegionId}/${selectedQuizTypes[0]}`);
         }
     };
-
 
     useEffect(() => {
         const fetchCountryName = async () => {
@@ -57,10 +54,7 @@ const RegionQuizPage = () => {
         fetchCountryName();
     }, [country]);
 
-    if (!country || !region) return <div className="flex justify-center items-center h-screen">No country or region selected.</div>;
-
-    // Decode region properly for display
-    const decodedRegion = Array.isArray(region) ? decodeURIComponent(region[0]) : decodeURIComponent(region);
+    if (!country || !regionId) return <div className="flex justify-center items-center h-screen">No country or region selected.</div>;
 
     return (
         <div className="flex min-h-screen">
@@ -91,10 +85,10 @@ const RegionQuizPage = () => {
                 )}
 
                 <h1 className="text-4xl font-bold mb-2">
-                    Quiz for <span style={{ color: '#1A5319' }}>{countryName || country} - {decodedRegion}</span>
+                    Quiz for <span style={{ color: '#1A5319' }}>{countryName || country}</span>
                 </h1>
                 <p className="opacity-80 mb-8">
-                    Select a quiz type for {decodedRegion} in {countryName || country}.
+                    Select a quiz type for the selected region in {countryName || country}.
                 </p>
 
                 <h3 className="text-xl font-semibold mt-4">Select Quiz Type</h3>
@@ -121,7 +115,7 @@ const RegionQuizPage = () => {
                             You selected: <span className="font-bold text-[#1A5319]">{selectedQuizTypes.join(", ")}</span>
                         </h4>
                         <GreenButton
-                            title={`Start Quiz: ${decodedRegion} - ${selectedQuizTypes.join(", ")}`}
+                            title={`Start Quiz for selected region - ${selectedQuizTypes.join(", ")}`}
                             onClick={handleStartQuiz}
                             width="w-full max-w-[18rem]"
                             height="h-[2.8rem] p-4"

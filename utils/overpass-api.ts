@@ -122,7 +122,6 @@ export async function fetchPlacesByRegion(
   // Convert the regionId to the correct areaId by adding 360 as a prefix
   const areaId = 3600000000 + regionId;
 
-  // Map quizType to Overpass place types
   const placeTypesMap: Record<string, string[]> = {
     Cities: ['city'],
     Towns: ['town'],
@@ -130,14 +129,8 @@ export async function fetchPlacesByRegion(
     All: ['city', 'town', 'village']
   };
 
-  // Get the specific types of places to query based on the user's selection
   const selectedPlaceTypes = placeTypesMap[quizType] || [];
   
-  // Log the selected quiz type and corresponding place types
-  console.log(`Selected quiz type: ${quizType}`);
-  console.log(`Mapped place types for this quiz: ${selectedPlaceTypes.join(', ')}`);
-
-  // Construct the Overpass API query dynamically based on selected place types
   const query = `
     [out:json][timeout:150];
     area(${areaId})->.regionArea;
@@ -149,11 +142,7 @@ export async function fetchPlacesByRegion(
     out body center;
   `;
 
-  // Log the generated query for debugging purposes
-  console.log('Generated Overpass API query:', query);
-
   const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-  console.log('Fetching places from URL:', url); // Log the URL
 
   try {
     const response = await fetch(url);
@@ -162,19 +151,14 @@ export async function fetchPlacesByRegion(
     }
 
     const data = await response.json();
-    console.log('Fetched Places Data:', data);
-
     if (data.elements.length === 0) {
       console.log(`No places found for region ID ${regionId} with quiz type ${quizType}`);
       return null;
     }
 
-    // Log the number of places found
-    console.log(`Number of places found for quiz type ${quizType}: ${data.elements.length}`);
-
     return data.elements.map((element: OverpassElement) => ({
       id: element.id,
-      name: element.tags.name || "Unnamed", // Fallback for name
+      name: element.tags.name || "Unnamed",
       position: [element.lat, element.lon] as [number, number],
       lat: element.lat,
       lon: element.lon,
