@@ -61,7 +61,7 @@ const Leaderboard = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); // Fetch data on mount
 
   const table = useReactTable({
     data,
