@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import QuizMap from '@/components/quiz/QuizMap';
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { HiXCircle } from "react-icons/hi";
 
 type Place = {
   id: number;
@@ -18,9 +20,10 @@ const NamePlaceQuiz: React.FC<NamePlaceQuizProps> = ({ places }) => {
   const [message, setMessage] = useState<string>('');
   const [attempts, setAttempts] = useState<number>(0);
   const [hint, setHint] = useState<string | null>(null);
+  const [showMessage, setShowMessage] = useState<boolean>(false); // For popup visibility
+  const [messageCorrect, setMessageCorrect] = useState<string>(''); // For correct/incorrect message
 
   useEffect(() => {
-    // Select a random place for the quiz
     if (places.length > 0) {
       selectNewPlace();
     }
@@ -40,8 +43,12 @@ const NamePlaceQuiz: React.FC<NamePlaceQuizProps> = ({ places }) => {
     if (currentPlace) {
       if (userInput.trim().toLowerCase() === currentPlace.name.toLowerCase()) {
         setScore(score + 1);
-        setMessage('✅ Correct');
-        setTimeout(() => selectNewPlace(), 500); // Move to the next question after a short delay
+        setMessageCorrect('correct');
+        setShowMessage(true);
+        setTimeout(() => {
+          setShowMessage(false);
+          selectNewPlace();
+        }, 1000);
       } else {
         handleIncorrectAnswer();
       }
@@ -52,10 +59,19 @@ const NamePlaceQuiz: React.FC<NamePlaceQuizProps> = ({ places }) => {
     const maxAttempts = 3;
     if (timeOut) {
       setMessage(`⏱️ Time's up! The correct answer was ${currentPlace?.name}.`);
+      setMessageCorrect('incorrect');
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 3000);
     } else {
       setAttempts(attempts + 1);
       if (attempts + 1 >= maxAttempts) {
         setMessage(`❌ Incorrect! The correct answer was ${currentPlace?.name}.`);
+        setMessageCorrect('incorrect');
+        setShowMessage(true);
+        setTimeout(() => {
+          setShowMessage(false);
+          selectNewPlace();
+        }, 3000);
       } else {
         setMessage('❌ Incorrect! Try again.');
         if (attempts === 1 && currentPlace) {
@@ -63,17 +79,55 @@ const NamePlaceQuiz: React.FC<NamePlaceQuizProps> = ({ places }) => {
         }
       }
     }
-
-    // Automatically move to the next question after a short delay if max attempts reached or time out
-    if (timeOut || attempts + 1 >= maxAttempts) {
-      setTimeout(() => selectNewPlace(), 3000);
-    }
   };
 
   return (
     <div className="">
       <h2 className="text-xl font-bold mb-4">Type the correct location:</h2>
-      
+
+      <style>
+        {`
+          @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+
+          @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+          }
+
+          .fade-in {
+            animation: fadeIn 0.7s forwards;
+          }
+
+          .fade-out {
+            animation: fadeOut 0.7s forwards;
+          }
+        `}
+      </style>
+
+      {/* Popup Message */}
+      {showMessage && (
+        <div
+          className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-[101] ${
+            showMessage ? 'fade-in' : 'fade-out'
+          }`}
+        >
+          {messageCorrect === 'correct' ? (
+            <h3 className="flex items-center text-lg mb-4 text-green-700 bg-green-100 border border-green-500 border-opacity-20 rounded-[0.4rem] py-2 px-8 shadow-md font-bold max-w-[100%] mt-2">
+              <IoIosCheckmarkCircle className="mr-2" />
+              Correct!
+            </h3>
+          ) : (
+            <h3 className="flex items-center text-lg mb-4 text-red-700 bg-red-100 border border-red-500 border-opacity-20 rounded-[0.4rem] py-2 px-8 shadow-md font-bold max-w-[100%] mt-2">
+              <HiXCircle className="mr-2" />
+              Try Again!
+            </h3>
+          )}
+        </div>
+      )}
+
       {currentPlace && (
         <>
           <form onSubmit={handleSubmit} className="flex flex-col mt-4">

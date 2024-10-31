@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Sidebar from '@/components/common/Sidebar';
 import GreenButton from '@/components/buttons/GreenButton';
 import { fetchCountries, fetchRegionsByCountry } from '@/utils/overpass-api';
-// import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
 import Space from '@/components/common/Space';
 import { useRouter } from 'next/navigation';
@@ -117,9 +117,12 @@ const CountryQuizPage = () => {
                   <button
                     key={region.id}
                     onClick={() => handleRegionSelect(region.id)}
-                    className="border border-gray-300 rounded-lg px-4 py-2 hover:bg-green-600 hover:text-white transition"
+                    className="border border-gray-300 rounded-[0.4rem] flex items-center p-4 bg-white hover:cursor-pointer hover:bg-black hover:bg-opacity-5 dark:bg-white dark:border-none dark:bg-opacity-5 dark:hover:bg-opacity-15"
                   >
-                    {region.name}
+                    <span className="flex-1 text-center font-medium text-lg">{region.name}</span>
+                    <span className="text-[#508D4E]">
+                      <FaArrowRight size={20} color="#508D4E" />
+                    </span>
                   </button>
                 ))}
               </div>
