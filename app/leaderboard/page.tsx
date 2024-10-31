@@ -1,11 +1,21 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import BackButton from '@/components/buttons/BackButton';
 import Sidebar from '@/components/common/Sidebar';
 import Leaderboard from '@/components/Leaderboard';
 
 const LeaderboardPage = () => {
+
+  useEffect(() => {
+    const hasReloaded = sessionStorage.getItem('hasReloaded');
+  
+    if (!hasReloaded) {
+      sessionStorage.setItem('hasReloaded', 'true');
+      window.location.reload();
+    }
+  }, []);  
+
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}

@@ -18,7 +18,7 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
   const [score, setScore] = useState<number>(0);
   const [message, setMessage] = useState<string>('');
   const [messageCorrect, setCorrectMessage] = useState<string>('');
-  const [showMessage, setShowMessage] = useState<boolean>(false); // State for message visibility
+  const [showMessage, setShowMessage] = useState<boolean>(false);
   const [quizPlaces, setQuizPlaces] = useState<Place[]>([]);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
       const filteredPlaces = places.filter((place) => place.id !== randomPlace.id);
       const randomSelection = filteredPlaces
         .sort(() => 0.5 - Math.random())
-        .slice(0, 4); // Select 4 random places (excluding the current one)
+        .slice(0, 3); // Select 3 random places (excluding the current one)
 
       const newQuizPlaces = [randomPlace, ...randomSelection].sort(() => 0.5 - Math.random());
       setCurrentPlace(randomPlace);
@@ -42,8 +42,9 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
 
   const handleMarkerClick = (placeId: number) => {
     if (currentPlace && placeId === currentPlace.id) {
-      setScore(score + 1);
+      setScore((prevScore) => prevScore + 1);
       setCorrectMessage('correct');
+      generateNewPlaces(); // Generate new places after a correct selection
     } else {
       setCorrectMessage('incorrect');
     }
@@ -78,9 +79,7 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
       {/* Popup Message */}
       {showMessage && (
         <div
-          className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-[101] ${
-            showMessage ? 'fade-in' : 'fade-out'
-          }`}
+          className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-[101] ${showMessage ? 'fade-in' : 'fade-out'}`}
         >
           {messageCorrect === 'correct' ? (
             <h3 className="flex items-center text-lg mb-4 text-green-700 bg-green-100 border border-green-500 border-opacity-20 rounded-[0.4rem] py-2 px-8 shadow-md font-bold max-w-[100%] mt-2">
@@ -110,7 +109,7 @@ const ClickPlaceQuiz: React.FC<ClickPlaceQuizProps> = ({ places }) => {
 
       <QuizMap
         center={currentPlace ? currentPlace.position : [0, 0]}
-        zoom={10}
+        zoom={8}
         places={quizPlaces}
         onMarkerClick={handleMarkerClick}
       />
