@@ -101,6 +101,6 @@ A: Please open an issue on the GitHub repository with details of the bug or feat
 
 ## Contact
 
-Have questions, feedback, or just want to say hi? Reach out to us at [info@geoname.site](mailto:info@geoname.site).
+Have questions, feedback, or just want to say hi? Reach out to me at [devlamper06@gmail.com](mailto:devlamper06@gmail.com).
 
 Thanks for checking out GeoName!
