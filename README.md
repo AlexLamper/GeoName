@@ -16,8 +16,9 @@ GeoName is a web-based platform designed to help people learn about different ge
 5. [Contributing](#contributing)
 6. [Support](#support)
 7. [License](#license)
-8. [FAQ](#faq)
-9. [Contact](#contact)
+8. [Version](#version)
+9. [FAQ](#faq)
+10. [Contact](#contact)
 
 ## Features
 
@@ -87,6 +88,10 @@ Want to support my work? You can share GeoName with others or contribute to the 
 ## License
 
 This project is licensed under the [MIT License](LICENSE), allowing for reuse and modification with attribution.
+
+## Version
+
+The current version of the project is; v.1.0
 
 ## FAQ
 
