@@ -1,6 +1,6 @@
 # GeoName
 
-Welcome to GeoName – Your Online Geographical Placename Learning Platform
+Welcome to GeoName – Your Online Geographical Placename Learning Platform.
 
 ## About GeoName
 
