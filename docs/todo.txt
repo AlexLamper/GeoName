@@ -1,4 +1,3 @@
 TODO
 ================================================================================
 - Add Stripe implementation to the application so users can buy premium etc... and the application is actually profitable.
-- Instead of using the 'string' region name, use the regionID, so the places always load. 
