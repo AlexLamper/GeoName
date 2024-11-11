@@ -6,9 +6,8 @@ Welcome to **GeoName** – Your Online Geographical Placename Learning Platform.
 
 ## About GeoName
 
-GeoName is my first project in the "6 startups in 6 months" journey. Is it a startup? Who knows! 🚀
-
-GeoName is a web-based platform designed to help you explore and learn about the world through quizzes and interactive resources. Whether you're new to geography or already have a strong foundation, GeoName is here to deepen your knowledge of places, flags, and more.
+I created GeoName as my first 'startup' in the creation of 6 startups in 6 months. When is something a startup? Idk 
+GeoName is a web-based platform designed to help people learn about different geographical places, flags, and more. Whether you're a beginner or already have a lot of geographical knowledge, GeoName provides quizzes and learning resources to elevate your journey.
 
 ---
 
