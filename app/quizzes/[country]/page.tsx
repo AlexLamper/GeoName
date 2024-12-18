@@ -3,7 +3,6 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Sidebar from '@/components/common/Sidebar';
-import GreenButton from '@/components/buttons/GreenButton';
 import { fetchCountries, fetchRegionsByCountry } from '@/utils/overpass-api';
 import { FaArrowRight } from 'react-icons/fa';
 import QuizBreadcrumbs from '@/components/quiz/QuizBreadCrumbs';
@@ -101,14 +100,6 @@ const CountryQuizPage = () => {
 
         {!selectedRegionId ? (
           <div>
-            <GreenButton
-              title={`Play Entire ${countryName || country}`}
-              onClick={() => handleRegionSelect(0)}
-              width="w-full max-w-[18rem]"
-              height="h-[2.8rem] p-4"
-              fontSize="text-[1.2rem]"
-            />
-
             <h2 className="text-2xl font-semibold mt-6 mb-4">Select a Region</h2>
 
             {regions.length > 0 ? (
