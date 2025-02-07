@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { MdHome, MdInfo, MdLeaderboard } from 'react-icons/md';
-import { FaGlobe, FaQuestionCircle } from 'react-icons/fa';
+import { FaBookOpen, FaGlobe, FaQuestionCircle } from 'react-icons/fa';
 import { IoPersonSharp } from "react-icons/io5";
 import { FaFlag } from "react-icons/fa";
 
@@ -32,6 +32,12 @@ const Sidebar = () => {
             <Link href="/flags" className="flex items-center w-full px-4 py-2 rounded font-medium hover:bg-opacity-10 transition-colors duration-200">
               <FaFlag size={20} className="mr-2" />
               Flags
+            </Link>
+          </li>
+          <li className={`mb-4 flex items-center cursor-pointer ${pathname.startsWith('/geographical-facts') ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
+            <Link href="/geographical-facts" className="flex items-center w-full px-4 py-2 rounded font-medium hover:bg-opacity-10 transition-colors duration-200">
+              <FaBookOpen size={20} className="mr-2" />
+              Geo Facts
             </Link>
           </li>
           <li className={`mb-4 flex items-center cursor-pointer ${pathname === '/leaderboard' ? 'bg-[#508D4E] text-white dark:bg-[#508D4E] rounded-[0.4rem]' : ''}`}>
