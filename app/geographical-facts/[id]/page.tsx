@@ -1,5 +1,3 @@
-"use client";
-
 import { fetchGeographicalFactById } from "@/utils/geographical-api"
 import Sidebar from "@/components/common/Sidebar"
 import BackButton from "@/components/buttons/BackButton"
@@ -45,7 +43,7 @@ export default async function GeographicalFactPage({ params }: { params: { id: s
         </Card>
 
         <div className="mb-8" style={{ height: "400px" }}>
-          <DynamicMap fact={fact} />
+          <DynamicMap singleFact={fact} />
         </div>
 
         {fact.funFacts && (
