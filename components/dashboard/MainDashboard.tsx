@@ -15,6 +15,7 @@ const Main = () => {
     { title: 'Flags', href: '/flags' },
     { title: 'Leaderboard', href: '/leaderboard' },
     { title: 'Profile', href: '/profile' },
+    { title: 'Geo Facts', href: '/geographical-facts' },
   ];
 
   // Function to update score and refresh leaderboard
